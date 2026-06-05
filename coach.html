@@ -1,0 +1,437 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#060D24">
+  <title>Coach · JETS U14 Taktik Hub</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;600;700&family=Barlow:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+  <style>
+    /* ---- Coach-spezifische Styles ---- */
+    .coach-badge {
+      display: inline-flex; align-items: center; gap: 5px;
+      background: rgba(255,205,0,.15); border: 1px solid rgba(255,205,0,.4);
+      color: var(--yellow); padding: 3px 10px; border-radius: 999px;
+      font-family: var(--font-display); font-size: 11px; text-transform: uppercase;
+      letter-spacing: .14em; font-weight: 600;
+    }
+
+    /* ---- PIN Screen ---- */
+    .pin-overlay {
+      position: fixed; inset: 0; z-index: 200;
+      background: var(--bg);
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      gap: 0; padding: 24px;
+      transition: opacity .4s, visibility .4s;
+    }
+    .pin-overlay.hidden { opacity: 0; visibility: hidden; pointer-events: none; }
+    .pin-box { width: 100%; max-width: 340px; text-align: center; }
+    .pin-logo { height: 56px; margin: 0 auto 20px; filter: drop-shadow(0 4px 12px rgba(0,0,0,.5)); }
+    .pin-box h2 { font-size: 26px; margin-bottom: 6px; }
+    .pin-box p { color: var(--text-dim); font-size: 14px; margin-bottom: 28px; }
+    .pin-dots { display: flex; justify-content: center; gap: 12px; margin-bottom: 24px; }
+    .pin-dot {
+      width: 16px; height: 16px; border-radius: 50%;
+      background: var(--surface-2); border: 2px solid var(--border-str);
+      transition: background .15s, border-color .15s;
+    }
+    .pin-dot.filled { background: var(--yellow); border-color: var(--yellow); box-shadow: 0 0 10px rgba(255,205,0,.5); }
+    .pin-numpad { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; max-width: 260px; margin: 0 auto; }
+    .pin-key {
+      aspect-ratio: 1; border-radius: 16px; background: var(--surface);
+      border: 1px solid var(--border); font-family: var(--font-display);
+      font-size: 24px; font-weight: 700; color: var(--text);
+      cursor: pointer; transition: background .12s, transform .1s;
+      display: grid; place-items: center;
+    }
+    .pin-key:hover { background: var(--surface-2); }
+    .pin-key:active { transform: scale(.93); background: var(--surface-3); }
+    .pin-key.del { font-size: 18px; color: var(--text-dim); }
+    .pin-key.empty { pointer-events: none; background: transparent; border-color: transparent; }
+    .pin-error {
+      margin-top: 16px; color: var(--red); font-size: 13px; font-weight: 600;
+      min-height: 20px; transition: opacity .3s;
+    }
+
+    /* ---- Dashboard ---- */
+    .dash { padding-bottom: 60px; }
+
+    /* Stat-Karten */
+    .stat-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; }
+    @media (min-width: 640px) { .stat-grid { grid-template-columns: repeat(4, 1fr); } }
+    .stat-card {
+      background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius);
+      padding: 16px; display: flex; flex-direction: column; gap: 4px;
+    }
+    .stat-card .sc-val {
+      font-family: var(--font-display); font-weight: 700; font-size: 34px;
+      line-height: 1; color: var(--text);
+    }
+    .stat-card .sc-val.yellow { color: var(--yellow); }
+    .stat-card .sc-val.green  { color: var(--green); }
+    .stat-card .sc-val.red    { color: var(--red); }
+    .stat-card .sc-lbl { font-size: 11.5px; text-transform: uppercase; letter-spacing: .12em; color: var(--text-dim); font-weight: 600; margin-top: 2px; }
+    .stat-card .sc-sub { font-size: 12px; color: var(--text-faint); margin-top: 4px; }
+
+    /* Themen-Balken */
+    .topic-bars { display: grid; gap: 11px; }
+    .tbar-row { display: grid; grid-template-columns: 130px 1fr 52px; align-items: center; gap: 12px; }
+    .tbar-name { font-family: var(--font-display); font-size: 13.5px; text-transform: uppercase; letter-spacing: .04em; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .tbar-track { height: 14px; border-radius: 999px; background: var(--surface-2); overflow: hidden; }
+    .tbar-fill { height: 100%; border-radius: 999px; transition: width 1s cubic-bezier(.2,.8,.2,1); background: linear-gradient(90deg, var(--blue), var(--blue-glow)); }
+    .tbar-fill.good { background: linear-gradient(90deg, var(--green-deep), var(--green)); }
+    .tbar-fill.warn { background: linear-gradient(90deg, #c87a00, #f5a623); }
+    .tbar-fill.bad  { background: linear-gradient(90deg, var(--red-deep), var(--red)); }
+    .tbar-pct { font-family: var(--font-display); font-weight: 700; font-size: 15px; text-align: right; }
+    .tbar-sub { grid-column: 2 / 4; color: var(--text-faint); font-size: 11.5px; margin-top: -6px; }
+
+    /* Spieler-Tabelle */
+    .ptable { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; }
+    .ptable-row {
+      display: grid; align-items: center; gap: 10px; padding: 13px 16px;
+      border-bottom: 1px solid var(--border);
+      grid-template-columns: 26px 1fr 64px 64px 60px 80px;
+    }
+    @media (max-width: 600px) { .ptable-row { grid-template-columns: 26px 1fr 56px 56px; } .ptable-col-hide { display: none; } }
+    .ptable-row:last-child { border-bottom: none; }
+    .ptable-row.head { background: var(--surface-2); border-bottom: 1px solid var(--border-str); }
+    .ptable-row.head span { font-family: var(--font-display); text-transform: uppercase; letter-spacing: .12em; font-size: 10.5px; color: var(--text-dim); font-weight: 600; }
+
+    .status-dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
+    .status-dot.green  { background: var(--green);  box-shadow: 0 0 6px rgba(40,199,111,.6); }
+    .status-dot.yellow { background: #f5a623;       box-shadow: 0 0 6px rgba(245,166,35,.5); }
+    .status-dot.red    { background: var(--red);    box-shadow: 0 0 6px rgba(255,90,95,.5); }
+
+    .p-name { font-weight: 700; font-size: 15px; }
+    .p-meta { color: var(--text-faint); font-size: 11px; margin-top: 1px; }
+
+    .score-pill {
+      display: inline-flex; align-items: center; justify-content: center;
+      padding: 4px 10px; border-radius: 999px; font-family: var(--font-display);
+      font-weight: 700; font-size: 13.5px; white-space: nowrap;
+    }
+    .score-pill.good { background: rgba(40,199,111,.15); color: var(--green); }
+    .score-pill.warn { background: rgba(245,166,35,.15); color: #f5a623; }
+    .score-pill.bad  { background: rgba(255,90,95,.15);  color: var(--red); }
+
+    .trend { font-size: 16px; }
+
+    .last-played { font-size: 12.5px; color: var(--text-dim); }
+    .last-played.today  { color: var(--green); font-weight: 600; }
+    .last-played.recent { color: var(--text); }
+
+    .games-count { font-family: var(--font-display); font-size: 15px; font-weight: 700; color: var(--text-dim); text-align: right; }
+
+    /* Abmelden */
+    .logout-row { display: flex; justify-content: flex-end; margin-top: 28px; }
+  </style>
+</head>
+<body>
+
+<!-- ====================== PIN SCREEN ====================== -->
+<div class="pin-overlay" id="pinOverlay">
+  <div class="pin-box">
+    <img class="pin-logo" src="assets/jets-logo.png" alt="JETS">
+    <h2>Coach-Ansicht</h2>
+    <p>Gib den 4-stelligen PIN ein.</p>
+    <div class="pin-dots" id="pinDots">
+      <div class="pin-dot" id="d0"></div>
+      <div class="pin-dot" id="d1"></div>
+      <div class="pin-dot" id="d2"></div>
+      <div class="pin-dot" id="d3"></div>
+    </div>
+    <div class="pin-numpad" id="numpad"></div>
+    <div class="pin-error" id="pinError"></div>
+  </div>
+</div>
+
+<!-- ====================== DASHBOARD ====================== -->
+<header class="app-header">
+  <div class="wrap">
+    <a class="brand" href="index.html">
+      <img src="assets/jets-logo.png" alt="JETS Logo">
+      <span class="brand-txt"><b>JETS U14</b><span>Taktik Hub</span></span>
+    </a>
+    <div class="header-tools">
+      <span class="coach-badge">🎯 Coach</span>
+      <button class="icon-btn" id="themeBtn" aria-label="Hell/Dunkel"></button>
+    </div>
+  </div>
+</header>
+
+<main class="wrap dash" id="dashboard" style="display:none">
+
+  <!-- Stats -->
+  <section class="section">
+    <div class="section-head"><div><span class="eyebrow">Diese Woche</span><h2>Team-Übersicht</h2></div></div>
+    <div class="stat-grid" id="statGrid"></div>
+  </section>
+
+  <!-- Themen-Performance -->
+  <section class="section">
+    <div class="section-head"><div><span class="eyebrow">Analyse</span><h2>Themen-Performance</h2></div></div>
+    <div class="topic-bars" id="topicBars"></div>
+  </section>
+
+  <!-- Spieler -->
+  <section class="section">
+    <div class="section-head"><div><span class="eyebrow">Alle Spieler</span><h2>Aktivität &amp; Scores</h2></div></div>
+    <div class="ptable" id="playerTable"></div>
+  </section>
+
+  <div class="logout-row">
+    <button class="btn btn-ghost" id="logoutBtn">🔒 Abmelden</button>
+  </div>
+</main>
+
+<script src="js/config.js"></script>
+<script src="js/api.js"></script>
+<script src="js/ui.js"></script>
+<script>
+UI.initTheme();
+const themeBtn = document.getElementById('themeBtn');
+themeBtn.innerHTML = UI.icon(UI.isDark() ? 'sun' : 'moon', 19);
+themeBtn.addEventListener('click', () => { UI.toggleTheme(); themeBtn.innerHTML = UI.icon(UI.isDark() ? 'sun' : 'moon', 19); });
+
+/* ============================================================
+   PIN
+   ============================================================ */
+let pinValue = '';
+const AUTH_KEY = 'jets_coach_auth';
+
+function checkAuth() {
+  if (sessionStorage.getItem(AUTH_KEY) === 'ok') unlock();
+  else buildNumpad();
+}
+
+function buildNumpad() {
+  const pad = document.getElementById('numpad');
+  const keys = ['1','2','3','4','5','6','7','8','9','←','0','✓'];
+  pad.innerHTML = keys.map(k => {
+    const cls = k === '←' ? 'pin-key del' : k === '✓' ? 'pin-key confirm' : 'pin-key';
+    return `<button class="${cls}" data-key="${k}">${k}</button>`;
+  }).join('');
+  pad.addEventListener('click', e => {
+    const btn = e.target.closest('.pin-key');
+    if (!btn) return;
+    handlePin(btn.dataset.key);
+  });
+  document.addEventListener('keydown', e => {
+    if (document.getElementById('pinOverlay').classList.contains('hidden')) return;
+    if (e.key >= '0' && e.key <= '9') handlePin(e.key);
+    if (e.key === 'Backspace') handlePin('←');
+    if (e.key === 'Enter') handlePin('✓');
+  });
+}
+
+function handlePin(key) {
+  const err = document.getElementById('pinError');
+  if (key === '←') { pinValue = pinValue.slice(0,-1); }
+  else if (key === '✓' || pinValue.length === 4) {
+    if (key !== '✓' && key !== '←') pinValue += key;
+    if (pinValue.length === 4) checkPin();
+    return;
+  } else { pinValue += key; }
+  err.textContent = '';
+  updateDots();
+}
+
+function updateDots() {
+  for (let i = 0; i < 4; i++) {
+    document.getElementById('d'+i).classList.toggle('filled', i < pinValue.length);
+  }
+}
+
+function checkPin() {
+  updateDots();
+  if (pinValue === String(CONFIG.COACH_PIN)) {
+    sessionStorage.setItem(AUTH_KEY, 'ok');
+    unlock();
+  } else {
+    document.getElementById('pinError').textContent = 'Falscher PIN – versuch es nochmal.';
+    pinValue = '';
+    updateDots();
+    const overlay = document.getElementById('pinOverlay');
+    overlay.style.animation = 'none';
+    requestAnimationFrame(() => {
+      overlay.style.animation = 'shake .4s ease';
+    });
+  }
+}
+
+function unlock() {
+  document.getElementById('pinOverlay').classList.add('hidden');
+  document.getElementById('dashboard').style.display = '';
+  buildDashboard();
+}
+
+document.getElementById('logoutBtn').addEventListener('click', () => {
+  sessionStorage.removeItem(AUTH_KEY);
+  document.getElementById('pinOverlay').classList.remove('hidden');
+  document.getElementById('dashboard').style.display = 'none';
+  pinValue = ''; updateDots();
+  document.getElementById('pinError').textContent = '';
+});
+
+/* ============================================================
+   DATEN-VERARBEITUNG
+   ============================================================ */
+function processData() {
+  const entries = MOCK.highscore;
+  const now = Date.now();
+
+  // Nach UID gruppieren (Fallback auf Name)
+  const byUid = {};
+  entries.forEach(e => {
+    const key = e.uid || ('name:' + e.name.toLowerCase());
+    if (!byUid[key]) byUid[key] = { uid: key, name: e.name, entries: [] };
+    byUid[key].entries.push(e);
+    byUid[key].name = e.name;
+  });
+
+  // Spieler aufbereiten
+  const players = Object.values(byUid).map(p => {
+    const sorted = [...p.entries].sort((a,b) => new Date(b.zeitstempel) - new Date(a.zeitstempel));
+    const total = sorted.length;
+    const avgScore = Math.round(sorted.reduce((s,e) => s + e.punkte/e.maxPunkte, 0) / total * 100);
+    const lastDate = new Date(sorted[0].zeitstempel);
+    const daysSince = Math.max(0, Math.floor((now - lastDate) / 86400000));
+    const topicsPlayed = [...new Set(sorted.map(e => e.topicId))];
+
+    // Trend: erste Hälfte vs letzte Hälfte
+    const half = Math.max(1, Math.ceil(total / 2));
+    const recentAvg = sorted.slice(0, half).reduce((s,e) => s + e.punkte/e.maxPunkte, 0) / half;
+    const oldAvg    = sorted.slice(-half).reduce((s,e) => s + e.punkte/e.maxPunkte, 0) / half;
+    const trend = total < 2 ? 'flat' : recentAvg > oldAvg + .1 ? 'up' : recentAvg < oldAvg - .1 ? 'down' : 'flat';
+
+    // Status
+    const status = daysSince > 7 ? 'red' : (daysSince > 3 || avgScore < 60) ? 'yellow' : 'green';
+
+    return { uid: p.uid, name: p.name, total, avgScore, lastDate, daysSince, topicsPlayed, trend, status };
+  }).sort((a,b) => a.daysSince - b.daysSince || b.avgScore - a.avgScore);
+
+  // Themen-Stats
+  const topicStats = MOCK.topics.map(t => {
+    const te = entries.filter(e => e.topicId === t.id);
+    const avg = te.length ? Math.round(te.reduce((s,e) => s + e.punkte/e.maxPunkte, 0) / te.length * 100) : 0;
+    return { id: t.id, titel: t.titel, count: te.length, avg };
+  });
+
+  // Summary
+  const weekMs = 7 * 864e5;
+  const weekEntries = entries.filter(e => now - new Date(e.zeitstempel) < weekMs);
+  const activeUids  = new Set(weekEntries.map(e => e.uid || e.name));
+  const teamAvg     = players.length ? Math.round(players.reduce((s,p) => s + p.avgScore, 0) / players.length) : 0;
+  const weakest     = [...topicStats].sort((a,b) => a.avg - b.avg)[0];
+
+  return { players, topicStats, activeCount: activeUids.size, totalGames: entries.length, teamAvg, weakest };
+}
+
+/* ============================================================
+   RENDER
+   ============================================================ */
+function relativeDay(daysSince) {
+  if (daysSince === 0) return { text: 'Heute', cls: 'today' };
+  if (daysSince === 1) return { text: 'Gestern', cls: 'recent' };
+  if (daysSince <= 3) return { text: `Vor ${daysSince} Tagen`, cls: 'recent' };
+  return { text: `Vor ${daysSince} Tagen`, cls: '' };
+}
+
+function trendIcon(t) {
+  if (t === 'up')   return '<span style="color:var(--green)">↑</span>';
+  if (t === 'down') return '<span style="color:var(--red)">↓</span>';
+  return '<span style="color:var(--text-faint)">→</span>';
+}
+
+function scorePillCls(pct) {
+  return pct >= 75 ? 'good' : pct >= 50 ? 'warn' : 'bad';
+}
+
+function barCls(pct) {
+  return pct >= 75 ? 'good' : pct >= 50 ? 'warn' : 'bad';
+}
+
+function buildDashboard() {
+  const d = processData();
+
+  /* --- Stat-Karten --- */
+  const statGrid = document.getElementById('statGrid');
+  const weakestTitel = d.weakest ? d.weakest.titel : '–';
+  statGrid.innerHTML = [
+    { val: d.activeCount, lbl: 'Aktive Spieler', sub: 'diese Woche', cls: d.activeCount >= 6 ? 'green' : 'yellow' },
+    { val: d.totalGames,  lbl: 'Quizze gespielt', sub: 'gesamt', cls: '' },
+    { val: d.teamAvg + '%', lbl: 'Team-Ø Score',  sub: 'alle Spieler', cls: d.teamAvg >= 70 ? 'green' : d.teamAvg >= 50 ? 'yellow' : 'red' },
+    { val: weakestTitel,  lbl: 'Schwächstes Thema', sub: d.weakest ? d.weakest.avg + '% Ø' : '', cls: 'red', small: true },
+  ].map(s => `
+    <div class="stat-card">
+      <div class="sc-val ${s.cls} ${s.small ? 'display' : ''}" style="${s.small ? 'font-size:clamp(15px,3.5vw,22px);line-height:1.15;text-transform:uppercase' : ''}">${escapeHtml(String(s.val))}</div>
+      <div class="sc-lbl">${s.lbl}</div>
+      ${s.sub ? `<div class="sc-sub">${s.sub}</div>` : ''}
+    </div>`).join('');
+
+  /* --- Themen-Balken --- */
+  const bars = document.getElementById('topicBars');
+  bars.innerHTML = d.topicStats.map(t => `
+    <div class="tbar-row">
+      <div class="tbar-name">${escapeHtml(t.titel)}</div>
+      <div class="tbar-track"><div class="tbar-fill ${barCls(t.avg)}" id="bar-${t.id}" style="width:0%"></div></div>
+      <div class="tbar-pct" style="color:var(--text)">${t.avg}%</div>
+      <div class="tbar-sub">${t.count} Durchläufe</div>
+    </div>`).join('');
+  // Balken animieren
+  setTimeout(() => {
+    d.topicStats.forEach(t => {
+      const el = document.getElementById('bar-' + t.id);
+      if (el) el.style.width = t.avg + '%';
+    });
+  }, 150);
+
+  /* --- Spieler-Tabelle --- */
+  const table = document.getElementById('playerTable');
+  table.innerHTML =
+    `<div class="ptable-row head">
+       <span></span><span>Spieler</span><span>Ø Score</span>
+       <span class="ptable-col-hide">Spiele</span>
+       <span class="ptable-col-hide">Trend</span>
+       <span>Letztes Quiz</span>
+     </div>` +
+    d.players.map(p => {
+      const rel = relativeDay(p.daysSince);
+      return `<div class="ptable-row">
+        <div class="status-dot ${p.status}"></div>
+        <div>
+          <div class="p-name">${escapeHtml(p.name)}</div>
+          <div class="p-meta">${p.topicsPlayed.length}/4 Themen</div>
+        </div>
+        <div><span class="score-pill ${scorePillCls(p.avgScore)}">${p.avgScore}%</span></div>
+        <div class="games-count ptable-col-hide">${p.total}×</div>
+        <div class="trend ptable-col-hide">${trendIcon(p.trend)}</div>
+        <div class="last-played ${rel.cls}">${rel.text}</div>
+      </div>`;
+    }).join('');
+}
+
+function escapeHtml(s) {
+  return String(s).replace(/[&<>"']/g, c => ({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;' }[c]));
+}
+
+/* Shake-Animation für falschen PIN */
+const style = document.createElement('style');
+style.textContent = `
+  @keyframes shake {
+    0%,100%{ transform:translateX(0) }
+    20%{ transform:translateX(-10px) }
+    40%{ transform:translateX(10px) }
+    60%{ transform:translateX(-6px) }
+    80%{ transform:translateX(6px) }
+  }`;
+document.head.appendChild(style);
+
+/* Start */
+checkAuth();
+</script>
+</body>
+</html>

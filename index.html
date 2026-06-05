@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#090F22">
+  <title>JETS U14 · Taktik Hub</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=Barlow:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <!-- ====================== HEADER ====================== -->
+  <header class="app-header">
+    <div class="wrap">
+      <a class="brand" href="index.html">
+        <img src="assets/jets-logo.png" alt="JETS Logo">
+        <span class="brand-txt">
+          <b>JETS U14</b>
+          <span>Taktik Hub</span>
+        </span>
+      </a>
+      <div class="header-tools">
+        <div class="streak-pill cold" id="streakPill" title="Streak">❄️ 0</div>
+        <button class="icon-btn" id="soundBtn" aria-label="Sound an/aus"></button>
+        <button class="icon-btn" id="themeBtn" aria-label="Hell/Dunkel"></button>
+      </div>
+    </div>
+  </header>
+
+  <main class="wrap">
+
+    <!-- ====================== HERO ====================== -->
+    <section class="hero">
+      <div class="hero-inner">
+        <span class="kicker" id="heroGreet">Willkommen im Playbook</span>
+        <h1>Werde zum <em>Taktik-Profi</em></h1>
+        <p>Lerne das System, teste Dein Wissen und klettere im Highscore nach oben, bereit?</p>
+
+        <div class="hero-stats">
+          <div class="hstat"><b id="heroMastered">0</b><span>Gemeistert</span></div>
+          <div class="hstat"><b id="heroTotal">4</b><span>Themen</span></div>
+          <div class="hstat"><b id="heroBadgeCount">0</b><span>Abzeichen</span></div>
+        </div>
+
+        <div class="hero-progress">
+          <div class="pwrap"><span>Dein Fortschritt</span><b id="heroPct">0%</b></div>
+          <div class="bar" id="heroBar"><i></i></div>
+        </div>
+      </div>
+    </section>
+
+    <div class="mock-banner" id="mockBanner" style="display:none">
+      🧪 <span><b>Demo-Modus:</b> Beispieldaten aktiv. Sobald die Google-Apps-Script-URL eingetragen ist, lädt alles live.</span>
+    </div>
+
+    <!-- ====================== BADGES ====================== -->
+    <section class="section">
+      <div class="section-head">
+        <div><span class="eyebrow">Sammle sie alle</span><h2>Deine Abzeichen</h2></div>
+      </div>
+      <div class="badge-strip" id="badgeStrip"></div>
+    </section>
+
+    <!-- ====================== THEMEN ====================== -->
+    <section class="section">
+      <div class="section-head">
+        <div><span class="eyebrow">Playbook</span><h2>Taktik-Themen</h2></div>
+      </div>
+      <div class="grid-cards" id="topicGrid"></div>
+    </section>
+
+    <!-- ====================== LEADERBOARD ====================== -->
+    <section class="section" id="leaderboardSection">
+      <div class="section-head">
+        <div><span class="eyebrow" id="boardEyebrow">Highscore</span><h2 id="boardHeading">Top 30</h2></div>
+      </div>
+      <div class="board" id="board"></div>
+    </section>
+
+    <footer class="foot">
+      <img class="logo-sm" src="assets/jets-logo.png" alt="JETS">
+      <div>JETS Kloten-Dietlikon · U14 Taktik Hub</div>
+    </footer>
+  </main>
+
+  <!-- ====================== THEORIE-MODAL ====================== -->
+  <div class="modal-back" id="modalBack">
+    <div class="modal" role="dialog" aria-modal="true">
+      <div class="modal-grab"></div>
+      <div class="modal-head">
+        <div class="tile-icon" id="mIcon"></div>
+        <div>
+          <span class="cat" id="mCat"></span>
+          <h2 id="mTitle"></h2>
+        </div>
+        <button class="icon-btn close" id="mClose" aria-label="Schliessen"></button>
+      </div>
+      <div class="modal-body" id="mBody"></div>
+      <div class="modal-foot">
+        <button class="btn btn-yellow btn-block btn-lg" id="mStart">🎮 Quiz zu diesem Thema starten</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+  <script type="text/babel" src="tweaks-panel.jsx"></script>
+  <script src="js/config.js"></script>
+  <script src="js/api.js"></script>
+  <script src="js/ui.js"></script>
+  <script src="js/index.js"></script>
+  <div id="tweaks-root"></div>
+  <script type="text/babel">
+    const TWEAK_DEFAULTS = /*EDITMODE-BEGIN*/{
+      "leaderboardTitel": "Highscore",
+      "theme": "dark",
+      "accentFarbe": "#FFCD00",
+      "demoBanner": false
+    }/*EDITMODE-END*/;
+
+    function TweaksApp() {
+      const [t, setTweak] = useTweaks(TWEAK_DEFAULTS);
+
+      // Leaderboard-Titel
+      React.useEffect(() => {
+        const ey = document.getElementById('boardEyebrow');
+        if (ey) ey.textContent = t.leaderboardTitel;
+      }, [t.leaderboardTitel]);
+
+      // Theme
+      React.useEffect(() => {
+        document.documentElement.setAttribute('data-theme', t.theme);
+        localStorage.setItem('jets_theme', t.theme);
+        const btn = document.getElementById('themeBtn');
+        if (btn && window.UI) btn.innerHTML = UI.icon(t.theme === 'dark' ? 'sun' : 'moon', 19);
+      }, [t.theme]);
+
+      // Akzentfarbe
+      React.useEffect(() => {
+        document.documentElement.style.setProperty('--yellow', t.accentFarbe);
+        document.documentElement.style.setProperty('--yellow-soft', t.accentFarbe + 'cc');
+      }, [t.accentFarbe]);
+
+      // Demo-Banner
+      React.useEffect(() => {
+        const mb = document.getElementById('mockBanner');
+        if (mb) mb.style.display = t.demoBanner ? 'flex' : 'none';
+      }, [t.demoBanner]);
+
+      return (
+        <TweaksPanel title="Tweaks">
+          <TweakSection label="Inhalt" />
+          <TweakRadio
+            label="Leaderboard-Titel"
+            value={t.leaderboardTitel}
+            options={['Highscore', 'Liga-Rangliste']}
+            onChange={v => setTweak('leaderboardTitel', v)}
+          />
+          <TweakToggle
+            label="Demo-Banner"
+            value={t.demoBanner}
+            onChange={v => setTweak('demoBanner', v)}
+          />
+          <TweakSection label="Design" />
+          <TweakRadio
+            label="Theme"
+            value={t.theme}
+            options={['dark', 'light']}
+            onChange={v => setTweak('theme', v)}
+          />
+          <TweakColor
+            label="Akzentfarbe"
+            value={t.accentFarbe}
+            options={['#FFCD00', '#FFB300', '#FF9500', '#00CFAA']}
+            onChange={v => setTweak('accentFarbe', v)}
+          />
+        </TweaksPanel>
+      );
+    }
+
+    ReactDOM.createRoot(document.getElementById('tweaks-root')).render(<TweaksApp />);
+  </script>
+  <script>
+    // Close-Icon einsetzen (nutzt UI-Icon-Bibliothek)
+    document.getElementById("mClose").innerHTML = UI.icon("x", 18);
+  </script>
+</body>
+</html>
