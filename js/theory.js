@@ -18,37 +18,40 @@
   document.getElementById("backLink").innerHTML = UI.icon("back", 17) + " Zurück";
 
   /* ---- Daten laden ---- */
-  const topic  = MOCK.topics.find((t) => t.id === topicId || t.id === topicId.toLowerCase());
-  const theory = API.getTheory(topicId);
+  API.getTopics().then(function (topics) {
+    const idLower = topicId.toLowerCase();
+    const topic   = topics.find((t) => t.id === topicId || t.id.toLowerCase() === idLower);
+    const theory  = API.getTheory(topicId);
 
-  if (!topic || !theory) {
-    document.getElementById("theoryBody").innerHTML =
-      "<p>Theorie für dieses Thema wurde nicht gefunden.</p>";
-    return;
-  }
+    if (!topic || !theory) {
+      document.getElementById("theoryBody").innerHTML =
+        "<p>Theorie für dieses Thema wurde nicht gefunden.</p>";
+      return;
+    }
 
-  /* ---- Kopf ---- */
-  document.title = topic.title + " · Theorie · JETS U14";
-  document.getElementById("tIcon").innerHTML  = UI.SVG[topic.icon] || UI.SVG.star;
-  document.getElementById("tCat").textContent  = topic.category;
-  document.getElementById("tTitle").textContent = topic.title;
+    /* ---- Kopf ---- */
+    document.title = topic.title + " · Theorie · JETS U14";
+    document.getElementById("tIcon").innerHTML   = UI.SVG[topic.icon] || UI.SVG.star;
+    document.getElementById("tCat").textContent  = topic.category;
+    document.getElementById("tTitle").textContent = topic.title;
 
-  /* ---- Markdown-Text ---- */
-  document.getElementById("theoryBody").innerHTML = marked.parse(theory.markdown);
+    /* ---- Markdown-Text ---- */
+    document.getElementById("theoryBody").innerHTML = marked.parse(theory.markdown);
 
-  /* ---- Ressourcen ---- */
-  const resEl = document.getElementById("theoryResources");
-  if (theory.resources && theory.resources.length > 0) {
-    resEl.innerHTML =
-      '<h2 class="resources-heading">Zusatzmaterial</h2>' +
-      '<div class="resources-grid">' +
-      theory.resources.map(renderResource).join("") +
-      "</div>";
-  }
+    /* ---- Ressourcen ---- */
+    const resEl = document.getElementById("theoryResources");
+    if (theory.resources && theory.resources.length > 0) {
+      resEl.innerHTML =
+        '<h2 class="resources-heading">Zusatzmaterial</h2>' +
+        '<div class="resources-grid">' +
+        theory.resources.map(renderResource).join("") +
+        "</div>";
+    }
 
-  /* ---- Quiz-Button ---- */
-  document.getElementById("startBtn").addEventListener("click", () => {
-    location.href = "quiz.html?topic=" + encodeURIComponent(topicId);
+    /* ---- Quiz-Button ---- */
+    document.getElementById("startBtn").addEventListener("click", () => {
+      location.href = "quiz.html?topic=" + encodeURIComponent(topicId);
+    });
   });
 
   /* ---- Ressource-Renderer ---- */
