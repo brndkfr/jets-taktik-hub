@@ -134,7 +134,7 @@ async function loadLeaderboard() {
   try {
     const rows = await API.getHighscore();
     const myName = (UI.getName() || "").toLowerCase();
-    const topicTitle = (id) => (MOCK.topics.find((t) => t.id === id) || {}).title || id;
+    const topicTitle = (id) => (MOCK.topics.find((t) => t.id === id || t.id === id.toLowerCase()) || {}).title || id;
 
     if (!rows.length) { host.innerHTML = `<div class="empty">Noch keine Einträge – sei die/der Erste! 🏒</div>`; return; }
 

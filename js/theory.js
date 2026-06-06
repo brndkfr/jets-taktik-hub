@@ -18,7 +18,7 @@
   document.getElementById("backLink").innerHTML = UI.icon("back", 17) + " Zurück";
 
   /* ---- Daten laden ---- */
-  const topic  = MOCK.topics.find((t) => t.id === topicId);
+  const topic  = MOCK.topics.find((t) => t.id === topicId || t.id === topicId.toLowerCase());
   const theory = API.getTheory(topicId);
 
   if (!topic || !theory) {

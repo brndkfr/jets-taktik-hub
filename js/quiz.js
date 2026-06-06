@@ -42,7 +42,7 @@ function setupHeader() {
 
 /* Daten laden + Startbildschirm vorbereiten */
 async function bootQuiz() {
-  Quiz.topic = MOCK.topics.find((t) => t.id === Quiz.topicId) || { titel: Quiz.topicId, kategorie: "Quiz", icon: "star" };
+  Quiz.topic = MOCK.topics.find((t) => t.id === Quiz.topicId || t.id === Quiz.topicId.toLowerCase()) || { titel: Quiz.topicId, kategorie: "Quiz", icon: "star" };
 
   // Start-Header
   document.getElementById("startIcon").innerHTML = UI.SVG[Quiz.topic.icon] || UI.SVG.star;
