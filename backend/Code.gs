@@ -1,22 +1,22 @@
 /**************************************************************
- * JETS U14B – Taktik-Zentrale  ·  Google Apps Script Backend
+ * JETS U14 – Taktik-Hub  ·  Google Apps Script Backend
  * ------------------------------------------------------------
- * Dieses Skript läuft IM Google Sheet und stellt eine kleine
- * JSON-API für die GitHub-Pages-Seite bereit.
+ * This script runs inside the Google Sheet and provides a
+ * small JSON API for the GitHub Pages site.
  *
  * REQUIRED SHEETS (Row 1 = header):
  *   "Topics":    ID | Title | Description | Category | Type | Active | Icon
  *   "Questions": TopicID | ID | Question | A | B | C | D | Answer | Explanation
  *   "Scores":    Timestamp | UID | Name | Points | MaxPoints | TopicID
  *
- * DEPLOY (einmalig):
- *   1) Sheet öffnen → Erweiterungen → Apps Script → diesen Code einfügen
- *   2) Bereitstellen → Neue Bereitstellung → Typ: Web-App
- *   3) "Ausführen als: ich"  +  "Zugriff: Alle (auch anonym)"
- *   4) Die /exec-URL kopieren und in js/config.js bei API_URL eintragen.
+ * DEPLOY (once):
+ *   1) Open the Sheet → Extensions → Apps Script → paste this code
+ *   2) Deploy → New deployment → Type: Web App
+ *   3) "Execute as: me"  +  "Who has access: Anyone"
+ *   4) Copy the /exec URL and paste it into API_URL in js/config.js
  **************************************************************/
 
-// ---- Endpunkt: GET ----------------------------------------
+// ---- Endpoint: GET ----------------------------------------
 function doGet(e) {
   var action = (e && e.parameter && e.parameter.action) || "";
   try {
@@ -31,7 +31,7 @@ function doGet(e) {
   }
 }
 
-// ---- Endpunkt: POST (Highscore speichern) -----------------
+// ---- Endpoint: POST (save score) --------------------------
 function doPost(e) {
   try {
     var data = JSON.parse(e.postData.contents);
@@ -50,7 +50,7 @@ function doPost(e) {
   }
 }
 
-// ---- Data: Topics ------------------------------
+// ---- Data: Topics ------------------------------------------
 function getTopics() {
   return rows("Topics")
     .filter(function (r) { return String(r.Active).toUpperCase() === "TRUE"; })

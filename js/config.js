@@ -11,7 +11,7 @@
 const CONFIG = {
   // 🔧 HIER später die Google-Apps-Script Web-App-URL eintragen:
   // z.B. "https://script.google.com/macros/s/AKfyc.../exec"
-  API_URL: "",
+  API_URL: "https://script.google.com/macros/s/AKfycby12pzh2etdTsJk_fBeGXb7RmxFRDUrkcFic9D1FON3MW69vpVlABRGHXDIRKXGcRIz/exec",
 
   TEAM_NAME: "JETS U14",
   TEAM_SUB:  "Kloten-Dietlikon · Taktik Hub",
