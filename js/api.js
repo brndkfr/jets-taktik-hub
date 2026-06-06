@@ -48,7 +48,7 @@ const API = (() => {
 
   /* ---- Theorie-Text (lokal, käme sonst aus dem Artikel-Sheet) ---- */
   function getTheory(topicId) {
-    return MOCK.theory[topicId] || null;
+    return MOCK.theory[topicId] || MOCK.theory[topicId.toLowerCase()] || null;
   }
 
   /* ---- Resultat speichern (POST) ---- */
