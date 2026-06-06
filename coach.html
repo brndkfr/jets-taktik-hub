@@ -294,17 +294,17 @@ function processData() {
 
   // Spieler aufbereiten
   const players = Object.values(byUid).map(p => {
-    const sorted = [...p.entries].sort((a,b) => new Date(b.zeitstempel) - new Date(a.zeitstempel));
+    const sorted = [...p.entries].sort((a,b) => new Date(b.timestamp) - new Date(a.timestamp));
     const total = sorted.length;
-    const avgScore = Math.round(sorted.reduce((s,e) => s + e.punkte/e.maxPunkte, 0) / total * 100);
-    const lastDate = new Date(sorted[0].zeitstempel);
+    const avgScore = Math.round(sorted.reduce((s,e) => s + e.points/e.maxPoints, 0) / total * 100);
+    const lastDate = new Date(sorted[0].timestamp);
     const daysSince = Math.max(0, Math.floor((now - lastDate) / 86400000));
     const topicsPlayed = [...new Set(sorted.map(e => e.topicId))];
 
     // Trend: erste Hälfte vs letzte Hälfte
     const half = Math.max(1, Math.ceil(total / 2));
-    const recentAvg = sorted.slice(0, half).reduce((s,e) => s + e.punkte/e.maxPunkte, 0) / half;
-    const oldAvg    = sorted.slice(-half).reduce((s,e) => s + e.punkte/e.maxPunkte, 0) / half;
+    const recentAvg = sorted.slice(0, half).reduce((s,e) => s + e.points/e.maxPoints, 0) / half;
+    const oldAvg    = sorted.slice(-half).reduce((s,e) => s + e.points/e.maxPoints, 0) / half;
     const trend = total < 2 ? 'flat' : recentAvg > oldAvg + .1 ? 'up' : recentAvg < oldAvg - .1 ? 'down' : 'flat';
 
     // Status
@@ -316,13 +316,13 @@ function processData() {
   // Themen-Stats
   const topicStats = MOCK.topics.map(t => {
     const te = entries.filter(e => e.topicId === t.id);
-    const avg = te.length ? Math.round(te.reduce((s,e) => s + e.punkte/e.maxPunkte, 0) / te.length * 100) : 0;
-    return { id: t.id, titel: t.titel, count: te.length, avg };
+    const avg = te.length ? Math.round(te.reduce((s,e) => s + e.points/e.maxPoints, 0) / te.length * 100) : 0;
+    return { id: t.id, title: t.title, count: te.length, avg };
   });
 
   // Summary
   const weekMs = 7 * 864e5;
-  const weekEntries = entries.filter(e => now - new Date(e.zeitstempel) < weekMs);
+  const weekEntries = entries.filter(e => now - new Date(e.timestamp) < weekMs);
   const activeUids  = new Set(weekEntries.map(e => e.uid || e.name));
   const teamAvg     = players.length ? Math.round(players.reduce((s,p) => s + p.avgScore, 0) / players.length) : 0;
   const weakest     = [...topicStats].sort((a,b) => a.avg - b.avg)[0];
@@ -359,7 +359,7 @@ function buildDashboard() {
 
   /* --- Stat-Karten --- */
   const statGrid = document.getElementById('statGrid');
-  const weakestTitel = d.weakest ? d.weakest.titel : '–';
+  const weakestTitel = d.weakest ? d.weakest.title : '–';
   statGrid.innerHTML = [
     { val: d.activeCount, lbl: 'Aktive Spieler', sub: 'diese Woche', cls: d.activeCount >= 6 ? 'green' : 'yellow' },
     { val: d.totalGames,  lbl: 'Quizze gespielt', sub: 'gesamt', cls: '' },
@@ -376,7 +376,7 @@ function buildDashboard() {
   const bars = document.getElementById('topicBars');
   bars.innerHTML = d.topicStats.map(t => `
     <div class="tbar-row">
-      <div class="tbar-name">${escapeHtml(t.titel)}</div>
+      <div class="tbar-name">${escapeHtml(t.title)}</div>
       <div class="tbar-track"><div class="tbar-fill ${barCls(t.avg)}" id="bar-${t.id}" style="width:0%"></div></div>
       <div class="tbar-pct" style="color:var(--text)">${t.avg}%</div>
       <div class="tbar-sub">${t.count} Durchläufe</div>

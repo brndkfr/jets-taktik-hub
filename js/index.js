@@ -134,8 +134,8 @@ function openTheory(topicId) {
 
   const back = document.getElementById("modalBack");
   document.getElementById("mIcon").innerHTML = UI.SVG[topic.icon] || UI.SVG.star;
-  document.getElementById("mCat").textContent = topic.kategorie;
-  document.getElementById("mTitle").textContent = topic.titel;
+  document.getElementById("mCat").textContent = topic.category;
+  document.getElementById("mTitle").textContent = topic.title;
 
   const body = document.getElementById("mBody");
   body.innerHTML =
@@ -170,7 +170,7 @@ async function loadLeaderboard() {
   try {
     const rows = await API.getHighscore();
     const myName = (UI.getName() || "").toLowerCase();
-    const topicTitle = (id) => (MOCK.topics.find((t) => t.id === id) || {}).titel || id;
+    const topicTitle = (id) => (MOCK.topics.find((t) => t.id === id) || {}).title || id;
 
     if (!rows.length) { host.innerHTML = `<div class="empty">Noch keine Einträge – sei die/der Erste! 🏒</div>`; return; }
 
