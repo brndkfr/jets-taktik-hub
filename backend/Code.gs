@@ -24,7 +24,7 @@ function doGet(e) {
       case "getTopics":    return json(getTopics());
       case "getQuestions": return json(getQuestions(e.parameter.topicId));
       case "getScores":    return json(getScores());
-      default:             return json({ ok: true, info: "JETS U14B API läuft." });
+      default:             return json({ ok: true, info: "JETS U14 API running." });
     }
   } catch (err) {
     return json({ error: String(err) });
@@ -118,3 +118,4 @@ function json(obj) {
     .createTextOutput(JSON.stringify(obj))
     .setMimeType(ContentService.MimeType.JSON);
 }
+
