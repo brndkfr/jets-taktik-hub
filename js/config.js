@@ -65,70 +65,131 @@ const MOCK = {
     },
   ],
 
-  /* --- Theorie-Texte (für das "Theorie lesen"-Modal) --- */
+  /* --- Theorie-Texte  (→ theory.html?topic=<id>)
+         Jeder Eintrag hat zwei Felder:
+           markdown  – Artikeltext als Markdown-String
+           resources – Array mit Zusatzmaterial (leer lassen wenn nichts da)
+         Ressource-Typen: youtube | image | link | instagram
+         Beispiele (auskommentiert) bei "spielerrollen".              --- */
   theory: {
     "spielerrollen": {
-      intro: "Im Unihockey-Grossfeld stehen 5 Feldspieler plus der Goali auf dem Feld. Jede Position hat eine klare Aufgabe – nur wenn alle ihre Rolle kennen, funktioniert das Team.",
-      sections: [
-        { h: "Die Positionen", list: [
-          "<b>Goali</b> – steht im «Chischtli» und ist der letzte Mann. Liest das Spiel und dirigiert die Verteidigung.",
-          "<b>Verteidiger (2x)</b> – sichern hinten ab, gewinnen den Banden-Zweikampf und starten den Spielaufbau.",
-          "<b>Center</b> – das Herz im Mittelfeld: unterstützt vorne und hinten, gewinnt Bullys.",
-          "<b>Flügel (2x)</b> – schnell auf den Aussenbahnen, suchen den Abschluss aus dem Slot.",
-        ]},
-        { h: "Merke dir", list: [
-          "Jeder verteidigt und jeder greift an – Unihockey ist Teamsport.",
-          "Ohne Scheibe heisst es: Räume zumachen und den Gegner zum Fehler zwingen.",
-          "Kommunikation ist alles – rede mit deinen Mitspielern!",
-        ]},
+      markdown: `
+# Taktik-Fokus: Die 4 Spielerrollen im Unihockey
+
+Im modernen Unihockey spielen feste Positionen (wie „Stürmer" oder „Verteidiger") eine immer kleinere Rolle. Sobald du das Spielfeld betrittst, verändert sich deine Aufgabe im Sekundentakt. Entscheidend ist nur, wer den Ball hat und wo du dich befindest.
+
+Es gibt **4 Spielerrollen**. Alle vier sind für den Erfolg des Teams exakt gleich wichtig.
+
+---
+
+### Phase 1: Unser Team hat den Ball (Offensive)
+
+#### Rolle 1: ICH mit dem Ball
+
+Du führst den Ball und trägst die Verantwortung für die aktuelle Aktion.
+
+* **Grundregel:** Bleibe immer in Bewegung, um für die Abwehr unberechenbar zu sein.
+* **Deine Optionen im Kopf (Entscheidungs-Matrix):**
+1. **Best Case:** Kann ich direkt aufs Tor schiessen oder einen Pass spielen, der sofort zu einem Tor führt? (Hohe Belohnung bei tiefem Risiko).
+2. **Bessere Position:** Wenn der Weg zum Tor zu ist: Kann ich den Ball zu einem Mitspieler passen, der freier steht, oder mich selbst durch Laufen in eine bessere Position bringen? *(Ein Pass ist fast immer schneller als ein Dribbling).*
+3. **Notausgang:** Ist alles zugestellt? Sichere den Ballbesitz. Spiel den Ball kontrolliert nach hinten oder halte ihn in den eigenen Reihen, anstatt einen Ballverlust zu riskieren.
+
+#### Rolle 2: Mein Mitspieler hat den Ball
+
+Du hast den Ball nicht, aber dein Team ist im Ballbesitz.
+
+* **Deine Aufgabe:** Unterstütze den Ballführenden aktiv durch Laufarbeit. Das Ziel ist es, dem Mitspieler immer **drei Anspielstationen** anzubieten.
+* **Verhalten:** Laufe intelligent in freie Räume, um Passwege zu öffnen, und kommuniziere klar auf dem Feld.
+
+---
+
+### Phase 2: Der Gegner hat den Ball (Defensive)
+
+#### Rolle 3: Direkter Gegenspieler MIT Ball
+
+Du bist der Verteidiger, der direkt vor dem ballführenden Gegner steht.
+
+* **Deine Aufgabe:** Such den direkten Zweikampf, übe Druck aus und zwinge den Gegner zu Fehlern.
+* **Verhalten:** Stelle Pass- und Schusswege mit dem Stock zu. Steuere den Gegner bewusst nach aussen an die Bande, weg von der gefährlichen Mitte. Schüsse werden konsequent geblockt.
+
+#### Rolle 4: Direkter Gegenspieler OHNE Ball
+
+Der Ball ist auf der anderen Feldseite, aber du teilst dich für den gegnerischen Spieler ein, der ohne Ball mitläuft.
+
+* **Deine Aufgabe:** Den Raum absichern und Pässe verhindern.
+* **Verhalten:** **Stehe immer INSIDE!** Das bedeutet: Du befindest dich immer auf der inneren Linie zwischen deinem Gegenspieler und unserem Tor. Richte dich nicht nur starr nach dem Ball aus. Halte deinen Körper offen zum Spielfeld, damit du den Ball UND deinen Gegenspieler gleichzeitig im Blick hast. Schliesse Passwege und rede mit deinen Mitspielern für eine lückenlose Zuteilung.
+
+---
+
+**Fazit:** Unihockey ist zu schnell für starres Denken. Wer am schnellsten zwischen diesen vier Rollen umschaltet, kontrolliert das Spiel.
+`,
+      resources: [
+        // { type: "youtube",   title: "Video-Titel",  url: "https://www.youtube.com/watch?v=XXXX" },
+        // { type: "image",     title: "Bildtitel",    url: "assets/diagrams/spielerrollen.png" },
+        // { type: "link",      title: "Linktitel",    url: "https://..." },
+        // { type: "instagram", title: "Post-Titel",   url: "https://www.instagram.com/p/XXXX/" },
       ],
     },
+
     "boxplay": {
-      intro: "Boxplay ist deine Verteidigung in Unterzahl (z.B. nach einer 2-Minuten-Strafe). Vier Feldspieler bilden einen kompakten Block in Form einer «Box» und schützen den gefährlichen Slot vor dem eigenen Tor.",
-      sections: [
-        { h: "So funktioniert's", list: [
-          "Vier Spieler bilden ein Viereck (Box) vor dem eigenen Tor.",
-          "Der Slot – die Zone direkt vor dem Goali – wird <b>immer</b> zugemacht.",
-          "Aktiv die Schusslinien blocken, nicht wild hinterherlaufen.",
-          "Geduldig bleiben: Die Strafe läuft für dich – Fehler erzwingen, nicht riskieren.",
-        ]},
-        { h: "Schweizer Begriffe", list: [
-          "<b>Block</b> – sich aktiv in die Schusslinie stellen.",
-          "<b>Slot</b> – die Top-Chancen-Zone zentral vor dem Tor.",
-          "<b>Chischtli</b> – das Tor / der Torraum des Goalis.",
-        ]},
-      ],
+      markdown: `
+Boxplay ist deine Verteidigung in Unterzahl (z.B. nach einer 2-Minuten-Strafe).
+Vier Feldspieler bilden einen kompakten Block in Form einer «Box» und schützen den gefährlichen Slot vor dem eigenen Tor.
+
+## So funktioniert's
+
+- Vier Spieler bilden ein Viereck (Box) vor dem eigenen Tor.
+- Der Slot – die Zone direkt vor dem Goali – wird **immer** zugemacht.
+- Aktiv die Schusslinien blocken, nicht wild hinterherlaufen.
+- Geduldig bleiben: Die Strafe läuft für dich – Fehler erzwingen, nicht riskieren.
+
+## Schweizer Begriffe
+
+- **Block** – sich aktiv in die Schusslinie stellen.
+- **Slot** – die Top-Chancen-Zone zentral vor dem Tor.
+- **Chischtli** – das Tor / der Torraum des Goalis.
+`,
+      resources: [],
     },
+
     "wuerfel-2-1-2": {
-      intro: "Das 2-1-2 ist unser Standard-Aufbau im Grossfeld. Die fünf Positionen sehen aus wie die Fünf auf einem Würfel: zwei hinten, einer in der Mitte, zwei vorne. Daher der Name «Würfel-System».",
-      sections: [
-        { h: "Die Anordnung", list: [
-          "<b>2 hinten</b> – die Verteidiger, breit gestaffelt für die Absicherung.",
-          "<b>1 in der Mitte</b> – der Center als Drehscheibe und Verbindungsspieler.",
-          "<b>2 vorne</b> – die Flügel, bereit für Pässe in den Slot.",
-        ]},
-        { h: "Vorteile", list: [
-          "Gute Balance zwischen Offensive und Defensive.",
-          "Klare Passwege – die Scheibe kann sauber laufen.",
-          "Schnelles Umschalten: aus der Verteidigung wird sofort der Angriff.",
-        ]},
-      ],
+      markdown: `
+Das 2-1-2 ist unser Standard-Aufbau im Grossfeld. Die fünf Positionen sehen aus wie die Fünf auf einem Würfel: zwei hinten, einer in der Mitte, zwei vorne. Daher der Name «Würfel-System».
+
+## Die Anordnung
+
+- **2 hinten** – die Verteidiger, breit gestaffelt für die Absicherung.
+- **1 in der Mitte** – der Center als Drehscheibe und Verbindungsspieler.
+- **2 vorne** – die Flügel, bereit für Pässe in den Slot.
+
+## Vorteile
+
+- Gute Balance zwischen Offensive und Defensive.
+- Klare Passwege – die Scheibe kann sauber laufen.
+- Schnelles Umschalten: aus der Verteidigung wird sofort der Angriff.
+`,
+      resources: [],
     },
+
     "powerplay": {
-      intro: "Powerplay ist dein Angriff in Überzahl. Jetzt heisst es: Ruhe bewahren, die Scheibe laufen lassen und durch geduldiges Passspiel eine Lücke im gegnerischen Block finden.",
-      sections: [
-        { h: "Die Idee", list: [
-          "Die Scheibe ist schneller als jeder Gegner – lass sie laufen!",
-          "Breit aufstellen, damit der gegnerische Block auseinandergezogen wird.",
-          "Einen Spieler im Slot postieren für Abpraller und Direktabnahmen.",
-          "Den Goali zur Bewegung zwingen: schnelle Seitenwechsel.",
-        ]},
-        { h: "Worauf achten", list: [
-          "Keine Hektik – ihr habt einen Mann mehr, also die Zeit nutzen.",
-          "Schüsse aufs Tor bringen, dann den Rebound im Slot abstauben.",
-          "Nach Scheibenverlust sofort umschalten und zurückarbeiten.",
-        ]},
-      ],
+      markdown: `
+Powerplay ist dein Angriff in Überzahl. Jetzt heisst es: Ruhe bewahren, die Scheibe laufen lassen
+und durch geduldiges Passspiel eine Lücke im gegnerischen Block finden.
+
+## Die Idee
+
+- Die Scheibe ist schneller als jeder Gegner – lass sie laufen!
+- Breit aufstellen, damit der gegnerische Block auseinandergezogen wird.
+- Einen Spieler im Slot postieren für Abpraller und Direktabnahmen.
+- Den Goali zur Bewegung zwingen: schnelle Seitenwechsel.
+
+## Worauf achten
+
+- Keine Hektik – ihr habt einen Mann mehr, also die Zeit nutzen.
+- Schüsse aufs Tor bringen, dann den Rebound im Slot abstauben.
+- Nach Scheibenverlust sofort umschalten und zurückarbeiten.
+`,
+      resources: [],
     },
   },
 

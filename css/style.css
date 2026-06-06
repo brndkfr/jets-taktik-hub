@@ -341,39 +341,62 @@ h1, h2, h3 { font-family: var(--font-display); font-weight: 600; text-transform:
 .bl-score small { display: block; color: var(--text-faint); font-size: 11px; }
 
 /* =============================================================
-   MODAL (Theorie)
+   THEORY PAGE  (theory.html)
    ============================================================= */
-.modal-back {
-  position: fixed; inset: 0; z-index: 100; background: rgba(4,8,20,.72);
-  backdrop-filter: blur(6px); display: grid; place-items: end center;
-  opacity: 0; visibility: hidden; pointer-events: none;
-  transition: opacity .3s, visibility .3s;
+.theory-page { padding-top: 24px; padding-bottom: 60px; max-width: 720px; }
+
+.theory-nav { margin-bottom: 20px; }
+.back-link {
+  display: inline-flex; align-items: center; gap: 6px;
+  color: var(--text-dim); text-decoration: none; font-size: 14px;
+  transition: color .15s;
 }
-.modal-back.open { opacity: 1; visibility: visible; pointer-events: auto; }
-@media (min-width: 640px) { .modal-back { place-items: center; padding: 24px; } }
-.modal {
-  width: 100%; max-width: 600px; max-height: 90dvh; overflow-y: auto;
-  background: var(--surface); border: 1px solid var(--border-str);
-  border-radius: 24px 24px 0 0; box-shadow: var(--shadow);
-  transform: translateY(40px); transition: transform .35s cubic-bezier(.2,.9,.2,1);
+.back-link:hover { color: var(--text); }
+
+.theory-head { display: flex; align-items: flex-start; gap: 16px; margin-bottom: 28px; }
+.theory-head .tile-icon { width: 52px; height: 52px; flex-shrink: 0; }
+.theory-head-text .cat { margin-bottom: 6px; }
+.theory-head-text h1 { font-family: var(--font-display); font-size: clamp(22px, 5vw, 34px); font-weight: 700; text-transform: uppercase; letter-spacing: .02em; line-height: 1.1; }
+
+.theory-body { font-size: 15.5px; line-height: 1.7; color: var(--text-dim); margin-bottom: 36px; }
+.theory-body h1,.theory-body h2 { font-family: var(--font-display); text-transform: uppercase; letter-spacing: .05em; color: var(--text); margin: 28px 0 10px; font-size: 17px; }
+.theory-body h3 { font-family: var(--font-display); text-transform: uppercase; letter-spacing: .05em; color: var(--yellow); margin: 22px 0 8px; font-size: 14px; }
+.theory-body h4 { font-family: var(--font-display); color: var(--text); margin: 18px 0 6px; font-size: 14px; text-transform: uppercase; letter-spacing: .04em; }
+.theory-body p { margin-bottom: 14px; }
+.theory-body ul, .theory-body ol { padding-left: 4px; list-style: none; display: grid; gap: 8px; margin-bottom: 16px; }
+.theory-body li { display: flex; gap: 10px; }
+.theory-body ul li::before { content: ""; flex: 0 0 auto; width: 7px; height: 7px; margin-top: 9px; border-radius: 2px; background: var(--yellow); transform: rotate(45deg); }
+.theory-body ol { counter-reset: ol; }
+.theory-body ol li { counter-increment: ol; }
+.theory-body ol li::before { content: counter(ol); flex: 0 0 auto; width: 22px; height: 22px; border-radius: 6px; background: var(--surface-2); border: 1px solid var(--border-str); font-family: var(--font-display); font-size: 12px; font-weight: 700; display: grid; place-items: center; margin-top: 2px; color: var(--yellow); }
+.theory-body strong { color: var(--text); font-weight: 700; }
+.theory-body em { color: var(--text-dim); font-style: italic; }
+.theory-body hr { border: none; border-top: 1px solid var(--border); margin: 24px 0; }
+.theory-body blockquote { border-left: 3px solid var(--yellow); padding-left: 14px; margin: 16px 0; font-style: italic; }
+
+.resources-heading { font-family: var(--font-display); font-size: 15px; text-transform: uppercase; letter-spacing: .1em; color: var(--text-dim); margin-bottom: 14px; }
+.resources-grid { display: grid; gap: 14px; }
+
+.resource-card { border-radius: var(--radius); overflow: hidden; border: 1px solid var(--border); background: var(--surface); }
+
+.resource-yt .yt-wrap { position: relative; padding-bottom: 56.25%; height: 0; }
+.resource-yt .yt-wrap iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: none; }
+.resource-yt .resource-label { padding: 10px 14px; font-size: 13.5px; color: var(--text-dim); }
+
+.resource-img figure { margin: 0; }
+.resource-img img { width: 100%; display: block; }
+.resource-img figcaption { padding: 10px 14px; font-size: 13px; color: var(--text-faint); }
+
+.resource-link {
+  display: flex; align-items: center; gap: 12px; padding: 14px 16px;
+  text-decoration: none; color: var(--text); transition: background .15s;
 }
-@media (min-width: 640px) { .modal { border-radius: 24px; transform: translateY(20px) scale(.98); } }
-.modal-back.open .modal { transform: none; }
-.modal-grab { width: 42px; height: 5px; border-radius: 999px; background: var(--border-str); margin: 10px auto 0; }
-@media (min-width: 640px) { .modal-grab { display: none; } }
-.modal-head { display: flex; align-items: flex-start; gap: 14px; padding: 18px 22px 14px; }
-.modal-head .tile-icon { width: 48px; height: 48px; }
-.modal-head h2 { font-size: 22px; }
-.modal-head .cat { margin-bottom: 6px; }
-.modal-head .close { margin-left: auto; }
-.modal-body { padding: 4px 22px 22px; }
-.modal-body h4 { font-family: var(--font-display); text-transform: uppercase; letter-spacing: .06em; color: var(--yellow); font-size: 14px; margin: 18px 0 8px; }
-.modal-body p { color: var(--text-dim); margin-bottom: 12px; font-size: 15px; }
-.modal-body ul { margin: 0 0 14px; padding-left: 4px; list-style: none; display: grid; gap: 9px; }
-.modal-body li { color: var(--text-dim); font-size: 14.5px; display: flex; gap: 10px; }
-.modal-body li::before { content: ""; flex: 0 0 auto; width: 8px; height: 8px; margin-top: 8px; border-radius: 3px; background: var(--yellow); transform: rotate(45deg); }
-.modal-body .term { color: var(--text); font-weight: 700; }
-.modal-foot { padding: 0 22px 24px; }
+.resource-link:hover { background: var(--surface-2); }
+.resource-link-icon { font-size: 20px; flex-shrink: 0; }
+.resource-link-title { flex: 1; font-size: 15px; font-weight: 600; }
+.resource-link-arrow { color: var(--text-faint); font-size: 18px; flex-shrink: 0; }
+
+.theory-foot { margin-top: 40px; padding-top: 24px; border-top: 1px solid var(--border); }
 
 /* =============================================================
    QUIZ-SEITE

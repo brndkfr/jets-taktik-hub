@@ -16,7 +16,7 @@
   <header class="app-header">
     <div class="wrap">
       <a class="brand" href="index.html">
-        <img src="assets/jets-logo.png" alt="JETS Logo">
+        <img src="assets/jets-logo.svg" alt="JETS Logo">
         <span class="brand-txt">
           <b>JETS U14</b>
           <span>Taktik Hub</span>
@@ -81,29 +81,10 @@
     </section>
 
     <footer class="foot">
-      <img class="logo-sm" src="assets/jets-logo.png" alt="JETS">
+      <img class="logo-sm" src="assets/jets-logo.svg" alt="JETS">
       <div>JETS Kloten-Dietlikon · U14 Taktik Hub</div>
     </footer>
   </main>
-
-  <!-- ====================== THEORIE-MODAL ====================== -->
-  <div class="modal-back" id="modalBack">
-    <div class="modal" role="dialog" aria-modal="true">
-      <div class="modal-grab"></div>
-      <div class="modal-head">
-        <div class="tile-icon" id="mIcon"></div>
-        <div>
-          <span class="cat" id="mCat"></span>
-          <h2 id="mTitle"></h2>
-        </div>
-        <button class="icon-btn close" id="mClose" aria-label="Schliessen"></button>
-      </div>
-      <div class="modal-body" id="mBody"></div>
-      <div class="modal-foot">
-        <button class="btn btn-yellow btn-block btn-lg" id="mStart">🎮 Quiz zu diesem Thema starten</button>
-      </div>
-    </div>
-  </div>
 
   <script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
   <script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
@@ -183,10 +164,6 @@
     }
 
     ReactDOM.createRoot(document.getElementById('tweaks-root')).render(<TweaksApp />);
-  </script>
-  <script>
-    // Close-Icon einsetzen (nutzt UI-Icon-Bibliothek)
-    document.getElementById("mClose").innerHTML = UI.icon("x", 18);
   </script>
 </body>
 </html>

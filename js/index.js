@@ -118,7 +118,7 @@ async function loadTopics() {
       });
       card.querySelector(".act-theory").addEventListener("click", () => {
         UI.beep("click");
-        openTheory(id);
+        location.href = "theory.html?topic=" + encodeURIComponent(id);
       });
     });
   } catch (e) {
@@ -126,42 +126,6 @@ async function loadTopics() {
   }
 }
 
-/* ---------------- Theorie-Modal ---------------- */
-function openTheory(topicId) {
-  const topic = MOCK.topics.find((t) => t.id === topicId);
-  const theory = API.getTheory(topicId);
-  if (!topic || !theory) { UI.toast("Theorie folgt bald.", "bad"); return; }
-
-  const back = document.getElementById("modalBack");
-  document.getElementById("mIcon").innerHTML = UI.SVG[topic.icon] || UI.SVG.star;
-  document.getElementById("mCat").textContent = topic.category;
-  document.getElementById("mTitle").textContent = topic.title;
-
-  const body = document.getElementById("mBody");
-  body.innerHTML =
-    `<p>${theory.intro}</p>` +
-    theory.sections.map((s) =>
-      `<h4>${s.h}</h4><ul>${s.list.map((li) => `<li><span>${li}</span></li>`).join("")}</ul>`
-    ).join("");
-
-  document.getElementById("mStart").onclick = () => {
-    location.href = "quiz.html?topic=" + encodeURIComponent(topicId);
-  };
-
-  back.classList.add("open");
-  document.body.style.overflow = "hidden";
-}
-function closeTheory() {
-  document.getElementById("modalBack").classList.remove("open");
-  document.body.style.overflow = "";
-}
-document.addEventListener("DOMContentLoaded", () => {
-  document.getElementById("mClose").addEventListener("click", closeTheory);
-  document.getElementById("modalBack").addEventListener("click", (e) => {
-    if (e.target.id === "modalBack") closeTheory();
-  });
-  document.addEventListener("keydown", (e) => { if (e.key === "Escape") closeTheory(); });
-});
 
 /* ---------------- Leaderboard ---------------- */
 async function loadLeaderboard() {

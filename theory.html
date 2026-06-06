@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#090F22">
+  <title>Theorie · JETS U14 Taktik Hub</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=Barlow:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <header class="app-header">
+    <div class="wrap">
+      <a class="brand" href="index.html">
+        <img src="assets/jets-logo.svg" alt="JETS Logo">
+        <span class="brand-txt"><b>JETS U14</b><span>Taktik Hub</span></span>
+      </a>
+      <div class="header-tools">
+        <button class="icon-btn" id="themeBtn" aria-label="Hell/Dunkel"></button>
+      </div>
+    </div>
+  </header>
+
+  <main class="wrap theory-page" id="theoryPage">
+
+    <div class="theory-nav">
+      <a class="back-link" href="index.html" id="backLink"></a>
+    </div>
+
+    <div class="theory-head" id="theoryHead">
+      <div class="tile-icon" id="tIcon"></div>
+      <div class="theory-head-text">
+        <span class="cat" id="tCat"></span>
+        <h1 id="tTitle"></h1>
+      </div>
+    </div>
+
+    <div class="theory-body" id="theoryBody"></div>
+
+    <div class="theory-resources" id="theoryResources"></div>
+
+    <div class="theory-foot">
+      <button class="btn btn-yellow btn-block btn-lg" id="startBtn">Quiz starten</button>
+    </div>
+
+  </main>
+
+  <script src="js/vendor/marked.min.js"></script>
+  <script src="js/config.js"></script>
+  <script src="js/api.js"></script>
+  <script src="js/ui.js"></script>
+  <script src="js/theory.js"></script>
+</body>
+</html>
