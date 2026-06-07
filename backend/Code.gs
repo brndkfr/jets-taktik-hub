@@ -8,6 +8,7 @@
  *   "Topics":    ID | Title | Description | Category | Type | Active | Icon
  *   "Questions": TopicID | ID | Question | A | B | C | D | Answer | Explanation
  *   "Scores":    Timestamp | UID | Name | Points | MaxPoints | TopicID
+ *   "Responses": TopicID | QuestionID | Correct | Timestamp | UID
  *
  * DEPLOY (once):
  *   1) Open the Sheet → Extensions → Apps Script → paste this code
@@ -21,9 +22,10 @@ function doGet(e) {
   var action = (e && e.parameter && e.parameter.action) || "";
   try {
     switch (action) {
-      case "getTopics":    return json(getTopics());
-      case "getQuestions": return json(getQuestions(e.parameter.topicId));
-      case "getScores":    return json(getScores());
+      case "getTopics":        return json(getTopics());
+      case "getQuestions":     return json(getQuestions(e.parameter.topicId));
+      case "getScores":        return json(getScores());
+      case "getQuestionStats": return json(getQuestionStats(e.parameter.topicId));
       default:             return json({ ok: true, info: "JETS U14 API running." });
     }
   } catch (err) {
@@ -44,6 +46,12 @@ function doPost(e) {
       Number(data.maxPoints) || 0,
       String(data.topicId || "")
     ]);
+    if (Array.isArray(data.responses)) {
+      var rsh = sheet("Responses");
+      data.responses.forEach(function (r) {
+        rsh.appendRow([String(data.topicId || ""), r.id, r.correct ? "TRUE" : "FALSE", new Date(), String(data.uid || "").substring(0, 40)]);
+      });
+    }
     return json({ ok: true });
   } catch (err) {
     return json({ ok: false, error: String(err) });
@@ -91,6 +99,23 @@ function getScores() {
     .sort(function (a, b) { return b._pct - a._pct; })
     .slice(0, 30)
     .map(function (r) { delete r._pct; return r; });
+}
+
+// ---- Data: Per-question failure rates ----------------------
+function getQuestionStats(topicId) {
+  var data = rows("Responses")
+    .filter(function (r) { return String(r.TopicID).toLowerCase() === String(topicId).toLowerCase(); });
+  var map = {};
+  data.forEach(function (r) {
+    var id = String(r.QuestionID);
+    if (!map[id]) map[id] = { id: id, total: 0, wrong: 0 };
+    map[id].total++;
+    if (String(r.Correct).toUpperCase() !== "TRUE") map[id].wrong++;
+  });
+  return Object.values(map).map(function (q) {
+    q.failRate = q.total ? Math.round((q.wrong / q.total) * 100) : 0;
+    return q;
+  }).sort(function (a, b) { return b.failRate - a.failRate; });
 }
 
 // ---- Helpers ------------------------------------------------

@@ -52,7 +52,7 @@ const API = (() => {
   }
 
   /* ---- Resultat speichern (POST) ---- */
-  async function saveScore({ name, uid, points, maxPoints, topicId }) {
+  async function saveScore({ name, uid, points, maxPoints, topicId, responses }) {
     if (!live()) {
       await wait(700);
       MOCK.highscore.push({
@@ -64,11 +64,16 @@ const API = (() => {
     const res = await fetch(CONFIG.API_URL, {
       method: "POST",
       headers: { "Content-Type": "text/plain;charset=utf-8" },
-      body: JSON.stringify({ uid, name, points, maxPoints, topicId }),
+      body: JSON.stringify({ uid, name, points, maxPoints, topicId, responses }),
     });
     if (!res.ok) throw new Error("Speichern fehlgeschlagen " + res.status);
     return res.json();
   }
 
-  return { getTopics, getQuestions, getHighscore, getTheory, saveScore, isLive: live };
+  async function getQuestionStats(topicId) {
+    if (!live()) return [];
+    return get("getQuestionStats", { topicId });
+  }
+
+  return { getTopics, getQuestions, getHighscore, getTheory, saveScore, getQuestionStats, isLive: live };
 })();

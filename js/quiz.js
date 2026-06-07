@@ -84,7 +84,7 @@ function startQuiz() {
   }
   UI.setName(name);
   UI.beep("click");
-  Quiz.idx = 0; Quiz.score = 0;
+  Quiz.idx = 0; Quiz.score = 0; Quiz.responses = [];
   document.getElementById("quizTopBar").style.display = "flex";
   document.getElementById("quizProgressWrap").style.display = "block";
   showScreen("screenQuestion");
@@ -131,6 +131,7 @@ function selectAnswer(key) {
   const correct = String(q.answer).trim().toUpperCase();
   const isRight = key === correct;
   if (isRight) Quiz.score++;
+  Quiz.responses.push({ id: q.id, correct: isRight });
 
   document.querySelectorAll(".answer").forEach((b) => {
     b.disabled = true;
@@ -235,6 +236,7 @@ async function saveResult() {
       points: Quiz.score,
       maxPoints: Quiz.questions.length,
       topicId: Quiz.topicId,
+      responses: Quiz.responses,
     });
     UI.beep("save");
     UI.toast("Gespeichert! Auf zur Rangliste 🏆", "ok");

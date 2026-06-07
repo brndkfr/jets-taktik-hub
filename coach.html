@@ -125,6 +125,21 @@
 
     .games-count { font-family: var(--font-display); font-size: 15px; font-weight: 700; color: var(--text-dim); text-align: right; }
 
+    /* Fragen-Fehlerrate */
+    .qstat-row {
+      display: grid; grid-template-columns: 48px 1fr 52px; align-items: center;
+      gap: 12px; padding: 10px 0; border-bottom: 1px solid var(--border);
+    }
+    .qstat-row:last-child { border-bottom: none; }
+    .qstat-icon { font-size: 18px; text-align: center; }
+    .qstat-text { font-size: 13.5px; line-height: 1.4; color: var(--text); }
+    .qstat-text small { display: block; color: var(--text-faint); font-size: 11.5px; margin-top: 2px; }
+    .qstat-pct { font-family: var(--font-display); font-weight: 700; font-size: 15px; text-align: right; }
+    .qstat-pct.bad  { color: var(--red); }
+    .qstat-pct.warn { color: #f5a623; }
+    .qstat-pct.good { color: var(--green); }
+    .qstat-empty { color: var(--text-faint); font-size: 14px; padding: 24px 0; text-align: center; }
+
     /* Abmelden */
     .logout-row { display: flex; justify-content: flex-end; margin-top: 28px; }
   </style>
@@ -174,6 +189,15 @@
   <section class="section">
     <div class="section-head"><div><span class="eyebrow">Analyse</span><h2>Themen-Performance</h2></div></div>
     <div class="topic-bars" id="topicBars"></div>
+  </section>
+
+  <!-- Schwache Fragen -->
+  <section class="section">
+    <div class="section-head">
+      <div><span class="eyebrow">Analyse</span><h2>Fragen-Fehlerrate</h2></div>
+      <select class="btn btn-ghost" id="qStatsTopic" style="font-size:13px;padding:6px 12px;cursor:pointer"></select>
+    </div>
+    <div id="qStatsBody"></div>
   </section>
 
   <!-- Spieler -->
@@ -355,6 +379,7 @@ function barCls(pct) {
 }
 
 function buildDashboard() {
+  buildTopicSelect();
   const d = processData();
 
   /* --- Stat-Karten --- */
@@ -429,6 +454,42 @@ style.textContent = `
     80%{ transform:translateX(6px) }
   }`;
 document.head.appendChild(style);
+
+/* ============================================================
+   FRAGEN-FEHLERRATE
+   ============================================================ */
+async function buildQuestionStats(topicId) {
+  const body = document.getElementById('qStatsBody');
+  body.innerHTML = '<div class="qstat-empty">Lädt…</div>';
+  const stats = await API.getQuestionStats(topicId);
+  const questions = MOCK.questions[topicId] || MOCK.questions[topicId.toLowerCase()] || [];
+  const qMap = {};
+  questions.forEach(q => { qMap[String(q.id)] = q.question; });
+
+  if (!stats.length) {
+    body.innerHTML = '<div class="qstat-empty">Noch keine Antworten für dieses Thema gespeichert.</div>';
+    return;
+  }
+  body.innerHTML = stats.map(s => {
+    const cls = s.failRate >= 60 ? 'bad' : s.failRate >= 30 ? 'warn' : 'good';
+    const icon = s.failRate >= 60 ? '❌' : s.failRate >= 30 ? '⚠️' : '✅';
+    const text = qMap[String(s.id)] || ('Frage ' + s.id);
+    return `<div class="qstat-row">
+      <div class="qstat-icon">${icon}</div>
+      <div class="qstat-text">${escapeHtml(text)}<small>Q${s.id} · ${s.total} Antworten · ${s.wrong} falsch</small></div>
+      <div class="qstat-pct ${cls}">${s.failRate}%</div>
+    </div>`;
+  }).join('');
+}
+
+function buildTopicSelect() {
+  const sel = document.getElementById('qStatsTopic');
+  API.getTopics().then(topics => {
+    sel.innerHTML = topics.map(t => `<option value="${escapeHtml(t.id)}">${escapeHtml(t.title)}</option>`).join('');
+    if (topics.length) buildQuestionStats(topics[0].id);
+  });
+  sel.addEventListener('change', () => buildQuestionStats(sel.value));
+}
 
 /* Start */
 checkAuth();
