@@ -204,3 +204,14 @@ All settings live in `js/config.js`:
 |---|---|---|
 | Blue | 286 C | `#0033A0` |
 | Yellow | 116 C | `#FFCD00` |
+
+---
+
+## Licenses
+
+| What | License |
+|---|---|
+| Source code (HTML, CSS, JS, Apps Script) | [MIT](LICENSE) |
+| Original theory content | [CC BY-NC 4.0](LICENSE-CONTENT) — © Bernd Kiefer |
+| Third-party libraries & fonts | See [NOTICE](NOTICE) — all MIT or SIL OFL |
+| External embedded documents (SwissUnihockey PDFs, YouTube) | Property of their respective owners — linked, not hosted |

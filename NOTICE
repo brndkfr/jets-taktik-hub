@@ -1,0 +1,50 @@
+JETS U14 Taktik Hub — Third-Party Notices
+==========================================
+
+This project uses the following third-party libraries and fonts.
+
+-------------------------------------------------------------------------------
+marked v18.0.5
+https://github.com/markedjs/marked
+License: MIT
+Vendored at js/vendor/marked.min.js
+-------------------------------------------------------------------------------
+React v18.3.1
+https://github.com/facebook/react
+License: MIT
+Loaded via CDN (unpkg.com)
+-------------------------------------------------------------------------------
+ReactDOM v18.3.1
+https://github.com/facebook/react
+License: MIT
+Loaded via CDN (unpkg.com)
+-------------------------------------------------------------------------------
+Babel Standalone v7.29.0
+https://github.com/babel/babel
+License: MIT
+Loaded via CDN (unpkg.com)
+-------------------------------------------------------------------------------
+QRCode.js v1.0.0
+https://github.com/davidshimjs/qrcodejs
+License: MIT
+Loaded via CDN (cdnjs.cloudflare.com)
+-------------------------------------------------------------------------------
+Oswald — Google Fonts
+https://fonts.google.com/specimen/Oswald
+License: SIL Open Font License 1.1
+Loaded via Google Fonts CDN
+-------------------------------------------------------------------------------
+Barlow — Google Fonts
+https://fonts.google.com/specimen/Barlow
+License: SIL Open Font License 1.1
+Loaded via Google Fonts CDN
+-------------------------------------------------------------------------------
+
+External Embedded Content
+--------------------------
+External documents embedded in theory pages (e.g. PDFs from swissunihockey.ch)
+are the property of their respective owners and are linked, not hosted.
+Swiss Unihockey materials remain © Swiss Unihockey / Unihockey Schweiz.
+
+YouTube videos embedded via the youtube-nocookie.com iframe API are subject to
+YouTube's Terms of Service (https://www.youtube.com/t/terms).
