@@ -30,9 +30,10 @@
   --border-str:  rgba(255,255,255,0.16);
 
   /* Text */
-  --text:        #EAF1FF;
+  --text:        #D4E4FF;
   --text-dim:    #98A8D0;
   --text-faint:  #5E6E9C;
+  --accent-text: #FFCD00;
 
   /* Effekte */
   --shadow:      0 18px 40px -18px rgba(0,0,0,0.7);
@@ -70,6 +71,7 @@
   --text:        #0B1228;
   --text-dim:    #4A5878;
   --text-faint:  #8593B5;
+  --accent-text: #8A5800;
 
   --shadow:      0 18px 40px -22px rgba(20,40,90,0.35);
   --shadow-sm:   0 6px 18px -10px rgba(20,40,90,0.28);
@@ -360,7 +362,7 @@ h1, h2, h3 { font-family: var(--font-display); font-weight: 600; text-transform:
 
 .theory-body { font-size: 16px; line-height: 1.75; color: var(--text); margin-bottom: 36px; }
 .theory-body h1,.theory-body h2 { font-family: var(--font-display); text-transform: uppercase; letter-spacing: .05em; color: var(--text); margin: 28px 0 10px; font-size: 17px; }
-.theory-body h3 { font-family: var(--font-display); text-transform: uppercase; letter-spacing: .05em; color: var(--yellow); margin: 22px 0 8px; font-size: 14px; }
+.theory-body h3 { font-family: var(--font-display); text-transform: uppercase; letter-spacing: .05em; color: var(--accent-text); margin: 22px 0 8px; font-size: 14px; }
 .theory-body h4 { font-family: var(--font-display); color: var(--text); margin: 18px 0 6px; font-size: 14px; text-transform: uppercase; letter-spacing: .04em; }
 .theory-body p { margin-bottom: 14px; }
 .theory-body ul, .theory-body ol { padding-left: 4px; list-style: none; display: grid; gap: 8px; margin-bottom: 16px; }
@@ -368,8 +370,8 @@ h1, h2, h3 { font-family: var(--font-display); font-weight: 600; text-transform:
 .theory-body ul li::before { content: ""; flex: 0 0 auto; width: 7px; height: 7px; margin-top: 9px; border-radius: 2px; background: var(--yellow); transform: rotate(45deg); }
 .theory-body ol { counter-reset: ol; }
 .theory-body ol li { counter-increment: ol; }
-.theory-body ol li::before { content: counter(ol); flex: 0 0 auto; width: 22px; height: 22px; border-radius: 6px; background: var(--surface-2); border: 1px solid var(--border-str); font-family: var(--font-display); font-size: 12px; font-weight: 700; display: grid; place-items: center; margin-top: 2px; color: var(--yellow); }
-.theory-body strong { color: var(--yellow); font-weight: 700; }
+.theory-body ol li::before { content: counter(ol); flex: 0 0 auto; width: 22px; height: 22px; border-radius: 6px; background: var(--surface-2); border: 1px solid var(--border-str); font-family: var(--font-display); font-size: 12px; font-weight: 700; display: grid; place-items: center; margin-top: 2px; color: var(--accent-text); }
+.theory-body strong { color: var(--accent-text); font-weight: 700; }
 .theory-body em { color: var(--text-dim); font-style: italic; }
 .theory-body hr { border: none; border-top: 1px solid var(--border); margin: 24px 0; }
 .theory-body blockquote { border-left: 3px solid var(--yellow); padding-left: 14px; margin: 16px 0; font-style: italic; color: var(--text-dim); }
