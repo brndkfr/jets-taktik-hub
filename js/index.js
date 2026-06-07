@@ -83,6 +83,7 @@ async function loadTopics() {
     const done = UI.getDone();
     if (!topics.length) { host.innerHTML = `<div class="empty" style="grid-column:1/-1">Noch keine Themen verfügbar.</div>`; return; }
 
+    API.prefetch(topics.map((t) => t.id));
     host.innerHTML = topics.map((t) => {
       const d = done[t.id];
       const pct = d ? Math.round((d.best / d.total) * 100) : 0;

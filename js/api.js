@@ -1,6 +1,6 @@
 /* =============================================================
    JETS U14B – Taktik-Zentrale
-   API-Schicht  (mit automatischem Mock-Fallback)
+   API-Schicht  (mit automatischem Mock-Fallback + sessionStorage-Cache)
    -------------------------------------------------------------
    Ist CONFIG.API_URL gesetzt  → echte Calls ans Apps Script.
    Ist sie leer                → die MOCK-Daten aus config.js.
@@ -10,8 +10,26 @@
 const API = (() => {
   const live = () => CONFIG.API_URL && CONFIG.API_URL.trim().length > 0;
 
-  // Künstliche kleine Verzögerung, damit Lade-Animationen sichtbar sind
-  const wait = (ms) => new Promise((r) => setTimeout(r, ms));
+  /* ---- Cache (sessionStorage, TTL in ms) ---- */
+  const TTL = { topics: 10 * 60000, questions: 10 * 60000, scores: 3 * 60000 };
+
+  function cacheGet(key) {
+    try {
+      const raw = sessionStorage.getItem('jets_api_' + key);
+      if (!raw) return null;
+      const { ts, data } = JSON.parse(raw);
+      const bucket = key.split('_')[0];
+      if (Date.now() - ts > (TTL[bucket] || 0)) {
+        sessionStorage.removeItem('jets_api_' + key);
+        return null;
+      }
+      return data;
+    } catch { return null; }
+  }
+
+  function cacheSet(key, data) {
+    try { sessionStorage.setItem('jets_api_' + key, JSON.stringify({ ts: Date.now(), data })); } catch {}
+  }
 
   async function get(action, params = {}) {
     const url = new URL(CONFIG.API_URL);
@@ -24,29 +42,41 @@ const API = (() => {
 
   /* ---- Themen / Artikel ---- */
   async function getTopics() {
-    if (!live()) { await wait(450); return MOCK.topics.filter((t) => t.active); }
-    return get("getTopics");
+    if (!live()) return MOCK.topics.filter((t) => t.active);
+    const cached = cacheGet('topics');
+    if (cached) return cached;
+    const data = await get("getTopics");
+    cacheSet('topics', data);
+    return data;
   }
 
   /* ---- Fragen eines Quiz ---- */
   async function getQuestions(topicId) {
-    if (!live()) { await wait(400); return (MOCK.questions[topicId] || []).slice(); }
-    return get("getQuestions", { topicId });
+    if (!live()) return (MOCK.questions[topicId] || MOCK.questions[topicId.toLowerCase()] || []).slice();
+    const key = 'questions_' + topicId.toLowerCase();
+    const cached = cacheGet(key);
+    if (cached) return cached;
+    const data = await get("getQuestions", { topicId });
+    cacheSet(key, data);
+    return data;
   }
 
   /* ---- Highscore-Liste ---- */
   async function getHighscore() {
     if (!live()) {
-      await wait(500);
       return MOCK.highscore
         .slice()
         .sort((a, b) => (b.points / b.maxPoints) - (a.points / a.maxPoints))
         .slice(0, 30);
     }
-    return get("getScores");
+    const cached = cacheGet('scores');
+    if (cached) return cached;
+    const data = await get("getScores");
+    cacheSet('scores', data);
+    return data;
   }
 
-  /* ---- Theorie-Text (lokal, käme sonst aus dem Artikel-Sheet) ---- */
+  /* ---- Theorie-Text (lokal) ---- */
   function getTheory(topicId) {
     return MOCK.theory[topicId] || MOCK.theory[topicId.toLowerCase()] || null;
   }
@@ -54,13 +84,14 @@ const API = (() => {
   /* ---- Resultat speichern (POST) ---- */
   async function saveScore({ name, uid, points, maxPoints, topicId, responses }) {
     if (!live()) {
-      await wait(700);
       MOCK.highscore.push({
         timestamp: new Date().toISOString(),
         uid: uid || 'u-mock', name, points, maxPoints, topicId,
       });
       return { ok: true, mock: true };
     }
+    // Invalidate scores cache so leaderboard reflects new result
+    try { sessionStorage.removeItem('jets_api_scores'); } catch {}
     const res = await fetch(CONFIG.API_URL, {
       method: "POST",
       headers: { "Content-Type": "text/plain;charset=utf-8" },
@@ -70,10 +101,16 @@ const API = (() => {
     return res.json();
   }
 
+  /* ---- Fragen-Fehlerrate (Coach) ---- */
   async function getQuestionStats(topicId) {
     if (!live()) return [];
     return get("getQuestionStats", { topicId });
   }
 
-  return { getTopics, getQuestions, getHighscore, getTheory, saveScore, getQuestionStats, isLive: live };
+  /* ---- Prefetch: Fragen im Hintergrund laden ---- */
+  function prefetch(topicIds) {
+    topicIds.forEach(id => getQuestions(id).catch(() => {}));
+  }
+
+  return { getTopics, getQuestions, getHighscore, getTheory, saveScore, getQuestionStats, prefetch, isLive: live };
 })();
