@@ -22,6 +22,7 @@ document.addEventListener("DOMContentLoaded", () => {
 function setupHeader() {
   const themeBtn = document.getElementById("themeBtn");
   const soundBtn = document.getElementById("soundBtn");
+  document.getElementById("qrBtn").innerHTML = UI.icon("qr", 19);
   const paint = () => {
     themeBtn.innerHTML = UI.icon(UI.isDark() ? "sun" : "moon", 19);
     soundBtn.innerHTML = UI.icon(UI.soundOn() ? "sound" : "mute", 19);

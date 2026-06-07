@@ -170,6 +170,7 @@
     </a>
     <div class="header-tools">
       <span class="coach-badge">🎯 Coach</span>
+      <a class="icon-btn" id="qrBtn" href="qr.html" aria-label="QR-Code Poster"></a>
       <button class="icon-btn" id="themeBtn" aria-label="Hell/Dunkel"></button>
     </div>
   </div>
@@ -214,6 +215,7 @@
 <script src="js/ui.js"></script>
 <script>
 UI.initTheme();
+document.getElementById('qrBtn').innerHTML = UI.icon('qr', 19);
 const themeBtn = document.getElementById('themeBtn');
 themeBtn.innerHTML = UI.icon(UI.isDark() ? 'sun' : 'moon', 19);
 themeBtn.addEventListener('click', () => { UI.toggleTheme(); themeBtn.innerHTML = UI.icon(UI.isDark() ? 'sun' : 'moon', 19); });
