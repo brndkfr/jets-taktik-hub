@@ -108,12 +108,12 @@ const API = (() => {
   }
 
   /* ---- Kontaktformular ---- */
-  async function sendContact({ name, message }) {
+  async function sendContact({ name, email, message }) {
     if (!live()) return { ok: true, mock: true };
     const res = await fetch(CONFIG.API_URL, {
       method: "POST",
       headers: { "Content-Type": "text/plain;charset=utf-8" },
-      body: JSON.stringify({ action: "contact", name, message }),
+      body: JSON.stringify({ action: "contact", name, email, message }),
     });
     if (!res.ok) throw new Error("Senden fehlgeschlagen " + res.status);
     return res.json();

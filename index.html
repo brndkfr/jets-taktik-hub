@@ -93,6 +93,8 @@
         <p class="modal-sub">Dein Name und deine Nachricht werden per E-Mail an den Betreiber weitergeleitet.</p>
         <label class="modal-label" for="contactName">Name</label>
         <input class="modal-input" id="contactName" type="text" placeholder="z.B. Max Muster" maxlength="80">
+        <label class="modal-label" for="contactEmail">E-Mail <span style="color:var(--red)">*</span></label>
+        <input class="modal-input" id="contactEmail" type="email" placeholder="z.B. max@beispiel.ch" maxlength="120">
         <label class="modal-label" for="contactMsg">Nachricht</label>
         <textarea class="modal-input modal-textarea" id="contactMsg" placeholder="Was soll gelöscht werden?" maxlength="1000"></textarea>
         <div class="modal-actions">
@@ -191,6 +193,7 @@
         modal.style.display = 'flex';
         feedback.textContent = '';
         document.getElementById('contactName').value = '';
+        document.getElementById('contactEmail').value = '';
         document.getElementById('contactMsg').value = '';
       });
       function close() { modal.style.display = 'none'; }
@@ -198,13 +201,15 @@
       modal.addEventListener('click', function(e) { if (e.target === modal) close(); });
       document.getElementById('contactSubmit').addEventListener('click', async function() {
         var name = document.getElementById('contactName').value.trim();
+        var email = document.getElementById('contactEmail').value.trim();
         var message = document.getElementById('contactMsg').value.trim();
+        if (!email) { feedback.textContent = 'Bitte eine E-Mail-Adresse eingeben.'; return; }
         if (!message) { feedback.textContent = 'Bitte eine Nachricht eingeben.'; return; }
         var btn = document.getElementById('contactSubmit');
         btn.disabled = true;
         btn.textContent = 'Wird gesendet…';
         try {
-          await API.sendContact({ name, message });
+          await API.sendContact({ name, email, message });
           feedback.style.color = 'var(--green)';
           feedback.textContent = 'Nachricht gesendet. Wir melden uns bald.';
           btn.style.display = 'none';

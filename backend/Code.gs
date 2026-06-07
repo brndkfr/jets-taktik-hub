@@ -64,13 +64,14 @@ function handleScore(data) {
 }
 
 function handleContact(data) {
-  var name    = String(data.name    || "").substring(0, 80) || "(kein Name)";
+  var name    = String(data.name    || "").substring(0, 80)  || "(kein Name)";
+  var email   = String(data.email   || "").substring(0, 120) || "(keine E-Mail)";
   var message = String(data.message || "").substring(0, 1000);
   if (!message) return json({ ok: false, error: "empty message" });
   MailApp.sendEmail({
     to:      "brnd.kiefer@gmail.com",
     subject: "JETS Taktik Hub – Kontaktanfrage von " + name,
-    body:    "Name: " + name + "\n\n" + message
+    body:    "Name: " + name + "\nE-Mail: " + email + "\n\n" + message
   });
   return json({ ok: true });
 }
