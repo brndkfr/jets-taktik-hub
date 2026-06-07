@@ -25,6 +25,19 @@ Never write: `* **Deine Aufgabe:** Unterstütze den...` — this jams label and 
 Use numbered lists (`1.`, `2.`, `3.`) for sequential steps or decision trees.
 Use bullet lists (`*`) only for genuinely unordered items, without embedded bold labels.
 
+Do NOT put bold text inside a numbered list item as a label prefix — it breaks on mobile:
+```markdown
+// bad
+1. **Best Case:** Kann ich direkt aufs Tor schiessen...
+
+// good - use a bold label paragraph before the list
+**Deine Optionen im Kopf**
+
+1. Best Case: Kann ich direkt aufs Tor schiessen...
+2. Bessere Position: Wenn der Weg zum Tor zu ist...
+3. Notausgang: Ist alles zugestellt?
+```
+
 ### Bold / emphasis
 - `**bold**` — key terms, role names, important concepts (renders in accent colour)
 - `*italic*` — secondary notes, caveats
