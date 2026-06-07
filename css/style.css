@@ -383,6 +383,10 @@ h1, h2, h3 { font-family: var(--font-display); font-weight: 600; text-transform:
 .resource-yt .yt-wrap iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: none; }
 .resource-yt .resource-label { padding: 10px 14px; font-size: 13.5px; color: var(--text-dim); }
 
+.resource-pdf .pdf-wrap { position: relative; height: 500px; }
+.resource-pdf .pdf-wrap iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: none; }
+.resource-pdf .resource-label { padding: 10px 14px; font-size: 13.5px; color: var(--text-dim); }
+
 .resource-img figure { margin: 0; }
 .resource-img img { width: 100%; display: block; }
 .resource-img figcaption { padding: 10px 14px; font-size: 13px; color: var(--text-faint); }

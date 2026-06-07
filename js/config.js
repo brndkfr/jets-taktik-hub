@@ -128,6 +128,7 @@ Der Ball ist auf der anderen Feldseite, aber du teilst dich für den gegnerische
         // { type: "image",     title: "Bildtitel",    url: "assets/diagrams/spielerrollen.png" },
         // { type: "link",      title: "Linktitel",    url: "https://..." },
         // { type: "instagram", title: "Post-Titel",   url: "https://www.instagram.com/p/XXXX/" },
+        // { type: "pdf",       title: "Dokument",     url: "https://example.com/file.pdf" },
       ],
     },
 

@@ -81,6 +81,17 @@
         </div>`;
     }
 
+    if (r.type === "pdf") {
+      const viewerUrl = "https://docs.google.com/viewer?url=" + encodeURIComponent(r.url) + "&embedded=true";
+      return `
+        <div class="resource-card resource-pdf">
+          <div class="pdf-wrap">
+            <iframe src="${viewerUrl}" title="${esc(r.title)}" frameborder="0"></iframe>
+          </div>
+          <div class="resource-label">📄 ${esc(r.title)}</div>
+        </div>`;
+    }
+
     if (r.type === "instagram") {
       return linkCard(r, "📸");
     }
