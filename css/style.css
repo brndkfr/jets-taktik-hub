@@ -586,6 +586,20 @@ h1, h2, h3 { font-family: var(--font-display); font-weight: 600; text-transform:
 .modal-actions { display: flex; gap: 10px; margin-top: 4px; }
 .modal-feedback { font-size: 13px; margin: 10px 0 0; min-height: 1em; }
 
+/* FAQ page */
+.faq-page { max-width: 720px; padding-top: 32px; padding-bottom: 60px; }
+.faq-page > h1 { font-size: clamp(22px, 5vw, 32px); margin-bottom: 8px; }
+.faq-intro { color: var(--text-dim); font-size: 15px; margin-bottom: 32px; line-height: 1.6; }
+.faq-item { border: 1px solid var(--border); border-radius: var(--radius-sm); margin-bottom: 10px; background: var(--surface); overflow: hidden; }
+.faq-item summary { padding: 16px 18px; font-weight: 600; font-size: 15px; cursor: pointer; list-style: none; display: flex; justify-content: space-between; align-items: center; gap: 12px; color: var(--text); }
+.faq-item summary::-webkit-details-marker { display: none; }
+.faq-item summary::after { content: "+"; font-size: 20px; color: var(--text-faint); flex-shrink: 0; line-height: 1; }
+.faq-item[open] summary::after { content: "−"; color: var(--accent-text); }
+.faq-item[open] summary { color: var(--accent-text); }
+.faq-body { padding: 0 18px 16px; color: var(--text-dim); font-size: 14.5px; line-height: 1.65; }
+.faq-body p { margin-bottom: 8px; }
+.faq-body p:last-child { margin-bottom: 0; }
+
 /* Reduced motion */
 @media (prefers-reduced-motion: reduce) {
   * { animation-duration: .001ms !important; transition-duration: .001ms !important; }

@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#090F22">
+  <title>FAQ · JETS U14 Taktik Hub</title>
+  <link rel="stylesheet" href="css/fonts.css">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <header class="app-header">
+    <div class="wrap">
+      <a class="brand" href="index.html">
+        <img src="assets/jets-logo.png" alt="JETS Logo">
+        <span class="brand-txt"><b>JETS U14</b><span>Taktik Hub</span></span>
+      </a>
+      <div class="header-tools">
+        <button class="icon-btn" id="themeBtn" aria-label="Hell/Dunkel"></button>
+      </div>
+    </div>
+  </header>
+
+  <main class="wrap faq-page">
+
+    <h1>Häufige Fragen</h1>
+    <p class="faq-intro">Hier findest du Antworten auf die häufigsten Fragen rund um den JETS U14 Taktik Hub.</p>
+
+    <details class="faq-item">
+      <summary>Mein Score wurde nicht gespeichert</summary>
+      <div class="faq-body">
+        <p>Meistens liegt das an einem kurzen Netzwerkausfall oder einem vorübergehenden Serverproblem. Den Quiz nochmal spielen und beim Speichern auf eine stabile Verbindung achten.</p>
+        <p>Deine lokalen Fortschritte (Badges, Streak, Themen-Abzeichen) bleiben davon unberührt - sie werden direkt auf deinem Gerät gespeichert.</p>
+      </div>
+    </details>
+
+    <details class="faq-item">
+      <summary>Mein Name, meine Badges oder mein Streak sind weg</summary>
+      <div class="faq-body">
+        <p>Name, Badges und Streak werden ausschliesslich im Browser-Speicher (localStorage) dieses Geräts gesichert. Sie gehen verloren, wenn:</p>
+        <p>- der Browser-Verlauf oder die Website-Daten gelöscht werden<br>
+           - ein anderes Gerät oder ein anderer Browser verwendet wird<br>
+           - der Browser im Inkognito-Modus geöffnet wurde</p>
+        <p>Eine geräteübergreifende Synchronisierung ist aktuell nicht vorgesehen.</p>
+      </div>
+    </details>
+
+    <details class="faq-item">
+      <summary>Ein Video oder PDF wird nicht angezeigt</summary>
+      <div class="faq-body">
+        <p>Eingebettete Inhalte (YouTube-Videos, PDFs) werden von externen Servern geladen und sind nicht Teil der App. Mögliche Ursachen:</p>
+        <p>- keine oder schlechte Internetverbindung<br>
+           - der externe Dienst ist kurz nicht erreichbar<br>
+           - ein Werbeblocker oder Content-Filter blockiert den Inhalt</p>
+        <p>Seite neu laden oder später nochmal versuchen. PDFs können alternativ direkt über den Link im Ressourcentitel geöffnet werden.</p>
+      </div>
+    </details>
+
+    <details class="faq-item">
+      <summary>Der Quiz-Start-Button ist ausgegraut</summary>
+      <div class="faq-body">
+        <p>Für dieses Thema sind noch keine Fragen hinterlegt, oder der Server konnte beim Laden nicht erreicht werden.</p>
+        <p>Kurz warten und die Seite neu laden. Falls das Problem anhält, ist das Thema möglicherweise noch in Bearbeitung.</p>
+      </div>
+    </details>
+
+    <details class="faq-item">
+      <summary>Was wird über mich gespeichert?</summary>
+      <div class="faq-body">
+        <p>Beim freiwilligen Speichern eines Ergebnisses werden Vorname, Punktzahl und Antwortmuster in Google Sheets (Google LLC, USA) abgelegt. Diese Daten dienen ausschliesslich der Teamstatistik des Trainers und werden nicht an Dritte weitergegeben.</p>
+        <p>Alle anderen Daten (Name, Badges, Streak, Einstellungen) verbleiben ausschliesslich auf deinem Gerät und werden nie übertragen.</p>
+        <p>Löschungsanfragen jederzeit über das Kontaktformular im Footer der Startseite.</p>
+      </div>
+    </details>
+
+    <details class="faq-item">
+      <summary>Funktioniert die App auch ohne Internet?</summary>
+      <div class="faq-body">
+        <p>Grundsätzlich ja - Theorie-Texte und Quizfragen werden nach dem ersten Laden für 10 Minuten zwischengespeichert. In dieser Zeit funktioniert die App auch ohne Verbindung.</p>
+        <p>Ohne Internet können keine Scores gespeichert und keine Rangliste geladen werden. Eingebettete Videos und PDFs sind ebenfalls nicht verfügbar.</p>
+      </div>
+    </details>
+
+    <details class="faq-item">
+      <summary>Die Seite sieht auf meinem Handy komisch aus</summary>
+      <div class="faq-body">
+        <p>Am besten Chrome (Android) oder Safari (iOS) in der aktuellen Version verwenden. Ältere Browser-Versionen werden nicht aktiv unterstützt.</p>
+        <p>Bei anhaltenden Anzeigeproblemen das Kontaktformular im Footer der Startseite nutzen - kurze Beschreibung des Problems und Gerät/Browser-Angabe sind hilfreich.</p>
+      </div>
+    </details>
+
+  </main>
+
+  <footer class="foot foot-sm">
+    <p class="foot-copyright">© 2026 Bernd Kiefer · Inhalte lizenziert unter <a href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank" rel="noopener">CC BY-NC 4.0</a></p>
+  </footer>
+
+  <script src="js/config.js"></script>
+  <script src="js/ui.js"></script>
+  <script>
+    const themeBtn = document.getElementById('themeBtn');
+    themeBtn.innerHTML = UI.icon(UI.isDark() ? 'sun' : 'moon', 19);
+    themeBtn.addEventListener('click', () => {
+      UI.toggleTheme();
+      themeBtn.innerHTML = UI.icon(UI.isDark() ? 'sun' : 'moon', 19);
+    });
+  </script>
+
+</body>
+</html>
