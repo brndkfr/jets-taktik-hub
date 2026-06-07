@@ -82,7 +82,7 @@
       <img class="logo-sm" src="assets/jets-logo.png" alt="JETS">
       <div>JETS Kloten-Dietlikon · U14 Taktik Hub</div>
       <p class="privacy-notice">
-        Datenschutz: Gespeicherte Ergebnisse (Name, Punktzahl, Antwortmuster) werden in Google&nbsp;Sheets (Google&nbsp;LLC, USA) gespeichert und dienen ausschliesslich der Teamstatistik. Löschungsanfragen an <a href="mailto:brnd.kiefer@gmail.com">brnd.kiefer@gmail.com</a>.
+        Datenschutz: Gespeicherte Ergebnisse (Name, Punktzahl, Antwortmuster) werden in Google&nbsp;Sheets (Google&nbsp;LLC, USA) gespeichert und dienen ausschliesslich der Teamstatistik. Löschungsanfragen an <a class="mail-reveal" data-u="brnd.kiefer" data-d="gmail.com"></a>.
       </p>
     </footer>
   </main>
@@ -165,6 +165,13 @@
     }
 
     ReactDOM.createRoot(document.getElementById('tweaks-root')).render(<TweaksApp />);
+  </script>
+  <script>
+    document.querySelectorAll('a.mail-reveal').forEach(function(a) {
+      var addr = a.dataset.u + '@' + a.dataset.d;
+      a.href = 'mailto:' + addr;
+      a.textContent = addr;
+    });
   </script>
 </body>
 </html>
