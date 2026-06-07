@@ -303,8 +303,7 @@ document.getElementById('logoutBtn').addEventListener('click', () => {
 /* ============================================================
    DATEN-VERARBEITUNG
    ============================================================ */
-function processData() {
-  const entries = MOCK.highscore;
+function processData(entries, topics) {
   const now = Date.now();
 
   // Nach UID gruppieren (Fallback auf Name)
@@ -338,8 +337,9 @@ function processData() {
   }).sort((a,b) => a.daysSince - b.daysSince || b.avgScore - a.avgScore);
 
   // Themen-Stats
-  const topicStats = MOCK.topics.map(t => {
-    const te = entries.filter(e => e.topicId === t.id);
+  const topicStats = topics.map(t => {
+    const idLower = t.id.toLowerCase();
+    const te = entries.filter(e => String(e.topicId).toLowerCase() === idLower);
     const avg = te.length ? Math.round(te.reduce((s,e) => s + e.points/e.maxPoints, 0) / te.length * 100) : 0;
     return { id: t.id, title: t.title, count: te.length, avg };
   });
@@ -378,9 +378,10 @@ function barCls(pct) {
   return pct >= 75 ? 'good' : pct >= 50 ? 'warn' : 'bad';
 }
 
-function buildDashboard() {
+async function buildDashboard() {
   buildTopicSelect();
-  const d = processData();
+  const [entries, topics] = await Promise.all([API.getHighscore(), API.getTopics()]);
+  const d = processData(entries, topics);
 
   /* --- Stat-Karten --- */
   const statGrid = document.getElementById('statGrid');
