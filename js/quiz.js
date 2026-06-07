@@ -213,6 +213,7 @@ function finishQuiz() {
   saveBtn.disabled = false;
   saveBtn.innerHTML = `${UI.icon("trophy", 18)} Im Jets-Highscore speichern`;
   saveBtn.onclick = saveResult;
+  document.getElementById("privacyHint").style.display = "";
   document.getElementById("retryBtn").onclick = () => location.reload();
   document.getElementById("homeBtn").onclick = () => location.href = "index.html";
 

@@ -12,32 +12,32 @@ Vendored at js/vendor/marked.min.js
 React v18.3.1
 https://github.com/facebook/react
 License: MIT
-Loaded via CDN (unpkg.com)
+Vendored at js/vendor/react.production.min.js
 -------------------------------------------------------------------------------
 ReactDOM v18.3.1
 https://github.com/facebook/react
 License: MIT
-Loaded via CDN (unpkg.com)
+Vendored at js/vendor/react-dom.production.min.js
 -------------------------------------------------------------------------------
 Babel Standalone v7.29.0
 https://github.com/babel/babel
 License: MIT
-Loaded via CDN (unpkg.com)
+Vendored at js/vendor/babel.min.js
 -------------------------------------------------------------------------------
 QRCode.js v1.0.0
 https://github.com/davidshimjs/qrcodejs
 License: MIT
-Loaded via CDN (cdnjs.cloudflare.com)
+Vendored at js/vendor/qrcode.min.js
 -------------------------------------------------------------------------------
 Oswald - Google Fonts
 https://fonts.google.com/specimen/Oswald
 License: SIL Open Font License 1.1
-Loaded via Google Fonts CDN
+Self-hosted at assets/fonts/oswald.woff2
 -------------------------------------------------------------------------------
 Barlow - Google Fonts
 https://fonts.google.com/specimen/Barlow
 License: SIL Open Font License 1.1
-Loaded via Google Fonts CDN
+Self-hosted at assets/fonts/barlow-{400,500,600,700}.woff2
 -------------------------------------------------------------------------------
 
 External Embedded Content
