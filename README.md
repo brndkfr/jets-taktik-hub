@@ -2,20 +2,20 @@
 
 A gamified tactics learning platform for the U14 squad of **Kloten-Dietlikon JETS** unihockey. Players study theory, take quizzes, earn badges and compete on a leaderboard. Coaches get a PIN-protected analytics dashboard.
 
-Built with vanilla HTML/CSS/JS — no build step, runs directly on **GitHub Pages**. Backend is optional via **Google Sheets + Apps Script**.
+Built with vanilla HTML/CSS/JS - no build step, runs directly on **GitHub Pages**. Backend is optional via **Google Sheets + Apps Script**.
 
 ---
 
 ## Features
 
-- **Theory pages** — Markdown content with embedded resources: YouTube videos, images, PDFs, Instagram links, external links. Resources can be pinned above or below the article.
-- **Quiz system** — Multiple-choice quizzes with instant answer feedback, explanations, and a results screen.
-- **Leaderboard** — Top 30 scores synced from Google Sheets.
-- **Badges & streak** — Players earn badges for milestones and maintain a daily play streak.
-- **Coach dashboard** — PIN-protected view with team stats, per-topic performance bars, player activity table, and per-question failure rates.
-- **Dark / light theme** — Persisted per device.
-- **Performance** — sessionStorage caching (10 min for topics/questions, 3 min for scores) and background prefetch so navigation feels instant.
-- **Mock mode** — Works fully offline with example data when no API URL is configured.
+- **Theory pages** - Markdown content with embedded resources: YouTube videos, images, PDFs, Instagram links, external links. Resources can be pinned above or below the article.
+- **Quiz system** - Multiple-choice quizzes with instant answer feedback, explanations, and a results screen.
+- **Leaderboard** - Top 30 scores synced from Google Sheets.
+- **Badges & streak** - Players earn badges for milestones and maintain a daily play streak.
+- **Coach dashboard** - PIN-protected view with team stats, per-topic performance bars, player activity table, and per-question failure rates.
+- **Dark / light theme** - Persisted per device.
+- **Performance** - sessionStorage caching (10 min for topics/questions, 3 min for scores) and background prefetch so navigation feels instant.
+- **Mock mode** - Works fully offline with example data when no API URL is configured.
 
 ---
 
@@ -50,7 +50,7 @@ jets-taktik-hub/
 
 ## Getting Started
 
-No build step required — open `index.html` in a browser or push to GitHub Pages. Without an `API_URL` the app runs entirely on mock data.
+No build step required - open `index.html` in a browser or push to GitHub Pages. Without an `API_URL` the app runs entirely on mock data.
 
 **GitHub Pages:**
 1. Push the repo to GitHub.
@@ -116,7 +116,7 @@ Add a row to the **Topics** sheet:
 
 | Field | Example | Notes |
 |---|---|---|
-| ID | `Spielerrollen` | Used in URLs — keep consistent with Questions tab |
+| ID | `Spielerrollen` | Used in URLs - keep consistent with Questions tab |
 | Title | `Spielerrollen` | Displayed on the card |
 | Description | `Aufgaben und Rollen auf dem Spielfeld` | Card subtitle |
 | Category | `Grundlagen` | Label above the title |
@@ -128,7 +128,7 @@ Add a row to the **Topics** sheet:
 
 ### Add questions
 
-Add rows to the **Questions** sheet — one row per question:
+Add rows to the **Questions** sheet - one row per question:
 
 | Field | Notes |
 |---|---|
@@ -178,10 +178,10 @@ Add `position: "top"` to any resource to render it above the article text.
 Navigate to `/coach.html` and enter the 4-digit PIN (set via `CONFIG.COACH_PIN` in `js/config.js`).
 
 The dashboard shows:
-- **Team overview** — active players this week, total quizzes, team average score, weakest topic
-- **Topic performance** — average score per topic with colour-coded bars
-- **Question failure rates** — per-question failure % for any topic, sorted worst-first
-- **Player activity** — per-player average score, games played, trend (↑↓→), last quiz date
+- **Team overview** - active players this week, total quizzes, team average score, weakest topic
+- **Topic performance** - average score per topic with colour-coded bars
+- **Question failure rates** - per-question failure % for any topic, sorted worst-first
+- **Player activity** - per-player average score, games played, trend (↑↓→), last quiz date
 
 ---
 
@@ -212,6 +212,6 @@ All settings live in `js/config.js`:
 | What | License |
 |---|---|
 | Source code (HTML, CSS, JS, Apps Script) | [MIT](LICENSE) |
-| Original theory content | [CC BY-NC 4.0](LICENSE-CONTENT) — © Bernd Kiefer |
-| Third-party libraries & fonts | See [NOTICE](NOTICE) — all MIT or SIL OFL |
-| External embedded documents (SwissUnihockey PDFs, YouTube) | Property of their respective owners — linked, not hosted |
+| Original theory content | [CC BY-NC 4.0](LICENSE-CONTENT) - © Bernd Kiefer |
+| Third-party libraries & fonts | See [NOTICE](NOTICE) - all MIT or SIL OFL |
+| External embedded documents (SwissUnihockey PDFs, YouTube) | Property of their respective owners - linked, not hosted |
