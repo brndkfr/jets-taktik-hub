@@ -564,6 +564,7 @@ h1, h2, h3 { font-family: var(--font-display); font-weight: 600; text-transform:
 .foot-sm { padding: 20px 0 16px; }
 .foot-copyright { margin-top: 10px; }
 .foot-copyright a { color: var(--text-faint); text-decoration: underline; }
+.foot-copyright a.coach-link { color: inherit; text-decoration: none; }
 .privacy-notice { max-width: 480px; margin: 16px auto 0; line-height: 1.5; }
 .privacy-notice a { color: var(--text-faint); text-decoration: underline; }
 
