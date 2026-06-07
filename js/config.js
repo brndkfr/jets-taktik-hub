@@ -124,7 +124,7 @@ Der Ball ist auf der anderen Feldseite, aber du teilst dich für den gegnerische
 **Fazit:** Unihockey ist zu schnell für starres Denken. Wer am schnellsten zwischen diesen vier Rollen umschaltet, kontrolliert das Spiel.
 `,
       resources: [
-        { type: "pdf", title: "Swiss Unihockey – Spielerrollen Übersicht (offizielles Poster)", url: "https://www.swissunihockey.ch/files/8617/2529/2061/SUH-Spielerrollen-A1-dt-rz.pdf" },
+        { type: "pdf", position: "top", title: "Swiss Unihockey – Spielerrollen Übersicht (offizielles Poster)", url: "https://www.swissunihockey.ch/files/8617/2529/2061/SUH-Spielerrollen-A1-dt-rz.pdf" },
         // { type: "youtube",   title: "Video-Titel",  url: "https://www.youtube.com/watch?v=XXXX" },
         // { type: "image",     title: "Bildtitel",    url: "assets/diagrams/spielerrollen.png" },
         // { type: "link",      title: "Linktitel",    url: "https://..." },

@@ -35,16 +35,24 @@
     document.getElementById("tCat").textContent  = topic.category;
     document.getElementById("tTitle").textContent = topic.title;
 
+    /* ---- Ressourcen oben ---- */
+    const topRes = (theory.resources || []).filter(r => r.position === "top");
+    if (topRes.length) {
+      document.getElementById("theoryBody").insertAdjacentHTML("beforebegin",
+        '<div class="resources-grid resources-top">' + topRes.map(renderResource).join("") + "</div>");
+    }
+
     /* ---- Markdown-Text ---- */
     document.getElementById("theoryBody").innerHTML = marked.parse(theory.markdown);
 
-    /* ---- Ressourcen ---- */
+    /* ---- Ressourcen unten ---- */
+    const bottomRes = (theory.resources || []).filter(r => r.position !== "top");
     const resEl = document.getElementById("theoryResources");
-    if (theory.resources && theory.resources.length > 0) {
+    if (bottomRes.length) {
       resEl.innerHTML =
         '<h2 class="resources-heading">Zusatzmaterial</h2>' +
         '<div class="resources-grid">' +
-        theory.resources.map(renderResource).join("") +
+        bottomRes.map(renderResource).join("") +
         "</div>";
     }
 
