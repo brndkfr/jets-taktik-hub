@@ -82,9 +82,26 @@
       <img class="logo-sm" src="assets/jets-logo.png" alt="JETS">
       <div>JETS Kloten-Dietlikon · U14 Taktik Hub</div>
       <p class="privacy-notice">
-        Datenschutz: Gespeicherte Ergebnisse (Name, Punktzahl, Antwortmuster) werden in Google&nbsp;Sheets (Google&nbsp;LLC, USA) gespeichert und dienen ausschliesslich der Teamstatistik. Löschungsanfragen an <a class="mail-reveal" data-u="brnd.kiefer" data-d="gmail.com"></a>.
+        Datenschutz: Gespeicherte Ergebnisse (Name, Punktzahl, Antwortmuster) werden in Google&nbsp;Sheets (Google&nbsp;LLC, USA) gespeichert und dienen ausschliesslich der Teamstatistik. <button class="privacy-link" id="openContact">Löschungsanfrage senden</button>
       </p>
     </footer>
+
+    <!-- Contact modal -->
+    <div class="modal-backdrop" id="contactModal" style="display:none" role="dialog" aria-modal="true" aria-labelledby="contactTitle">
+      <div class="modal-box">
+        <h2 class="modal-title" id="contactTitle">Löschungsanfrage</h2>
+        <p class="modal-sub">Dein Name und deine Nachricht werden per E-Mail an den Betreiber weitergeleitet.</p>
+        <label class="modal-label" for="contactName">Name</label>
+        <input class="modal-input" id="contactName" type="text" placeholder="z.B. Max Muster" maxlength="80">
+        <label class="modal-label" for="contactMsg">Nachricht</label>
+        <textarea class="modal-input modal-textarea" id="contactMsg" placeholder="Was soll gelöscht werden?" maxlength="1000"></textarea>
+        <div class="modal-actions">
+          <button class="btn btn-yellow" id="contactSubmit">Senden</button>
+          <button class="btn btn-ghost" id="contactClose">Abbrechen</button>
+        </div>
+        <p class="modal-feedback" id="contactFeedback"></p>
+      </div>
+    </div>
   </main>
 
   <script src="js/vendor/react.production.min.js"></script>
@@ -167,11 +184,39 @@
     ReactDOM.createRoot(document.getElementById('tweaks-root')).render(<TweaksApp />);
   </script>
   <script>
-    document.querySelectorAll('a.mail-reveal').forEach(function(a) {
-      var addr = a.dataset.u + '@' + a.dataset.d;
-      a.href = 'mailto:' + addr;
-      a.textContent = addr;
-    });
+    (function() {
+      var modal   = document.getElementById('contactModal');
+      var feedback = document.getElementById('contactFeedback');
+      document.getElementById('openContact').addEventListener('click', function() {
+        modal.style.display = 'flex';
+        feedback.textContent = '';
+        document.getElementById('contactName').value = '';
+        document.getElementById('contactMsg').value = '';
+      });
+      function close() { modal.style.display = 'none'; }
+      document.getElementById('contactClose').addEventListener('click', close);
+      modal.addEventListener('click', function(e) { if (e.target === modal) close(); });
+      document.getElementById('contactSubmit').addEventListener('click', async function() {
+        var name = document.getElementById('contactName').value.trim();
+        var message = document.getElementById('contactMsg').value.trim();
+        if (!message) { feedback.textContent = 'Bitte eine Nachricht eingeben.'; return; }
+        var btn = document.getElementById('contactSubmit');
+        btn.disabled = true;
+        btn.textContent = 'Wird gesendet…';
+        try {
+          await API.sendContact({ name, message });
+          feedback.style.color = 'var(--green)';
+          feedback.textContent = 'Nachricht gesendet. Wir melden uns bald.';
+          btn.style.display = 'none';
+          document.getElementById('contactClose').textContent = 'Schliessen';
+        } catch(err) {
+          feedback.style.color = 'var(--red)';
+          feedback.textContent = 'Fehler beim Senden. Bitte später nochmal versuchen.';
+          btn.disabled = false;
+          btn.textContent = 'Senden';
+        }
+      });
+    })();
   </script>
 </body>
 </html>

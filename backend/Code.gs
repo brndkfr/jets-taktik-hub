@@ -33,29 +33,46 @@ function doGet(e) {
   }
 }
 
-// ---- Endpoint: POST (save score) --------------------------
+// ---- Endpoint: POST ----------------------------------------
 function doPost(e) {
   try {
     var data = JSON.parse(e.postData.contents);
-    var sh = sheet("Scores");
-    sh.appendRow([
-      new Date(),
-      String(data.uid || "").substring(0, 40),
-      String(data.name || "Unknown").substring(0, 20),
-      Number(data.points) || 0,
-      Number(data.maxPoints) || 0,
-      String(data.topicId || "")
-    ]);
-    if (Array.isArray(data.responses)) {
-      var rsh = sheet("Responses");
-      data.responses.forEach(function (r) {
-        rsh.appendRow([String(data.topicId || ""), r.id, r.correct ? "TRUE" : "FALSE", new Date(), String(data.uid || "").substring(0, 40)]);
-      });
-    }
-    return json({ ok: true });
+    if (data.action === "contact") return handleContact(data);
+    return handleScore(data);
   } catch (err) {
     return json({ ok: false, error: String(err) });
   }
+}
+
+function handleScore(data) {
+  var sh = sheet("Scores");
+  sh.appendRow([
+    new Date(),
+    String(data.uid || "").substring(0, 40),
+    String(data.name || "Unknown").substring(0, 20),
+    Number(data.points) || 0,
+    Number(data.maxPoints) || 0,
+    String(data.topicId || "")
+  ]);
+  if (Array.isArray(data.responses)) {
+    var rsh = sheet("Responses");
+    data.responses.forEach(function (r) {
+      rsh.appendRow([String(data.topicId || ""), r.id, r.correct ? "TRUE" : "FALSE", new Date(), String(data.uid || "").substring(0, 40)]);
+    });
+  }
+  return json({ ok: true });
+}
+
+function handleContact(data) {
+  var name    = String(data.name    || "").substring(0, 80) || "(kein Name)";
+  var message = String(data.message || "").substring(0, 1000);
+  if (!message) return json({ ok: false, error: "empty message" });
+  MailApp.sendEmail({
+    to:      "brnd.kiefer@gmail.com",
+    subject: "JETS Taktik Hub – Kontaktanfrage von " + name,
+    body:    "Name: " + name + "\n\n" + message
+  });
+  return json({ ok: true });
 }
 
 // ---- Data: Topics ------------------------------------------

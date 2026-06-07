@@ -107,10 +107,22 @@ const API = (() => {
     return get("getQuestionStats", { topicId });
   }
 
+  /* ---- Kontaktformular ---- */
+  async function sendContact({ name, message }) {
+    if (!live()) return { ok: true, mock: true };
+    const res = await fetch(CONFIG.API_URL, {
+      method: "POST",
+      headers: { "Content-Type": "text/plain;charset=utf-8" },
+      body: JSON.stringify({ action: "contact", name, message }),
+    });
+    if (!res.ok) throw new Error("Senden fehlgeschlagen " + res.status);
+    return res.json();
+  }
+
   /* ---- Prefetch: Fragen im Hintergrund laden ---- */
   function prefetch(topicIds) {
     topicIds.forEach(id => getQuestions(id).catch(() => {}));
   }
 
-  return { getTopics, getQuestions, getHighscore, getTheory, saveScore, getQuestionStats, prefetch, isLive: live };
+  return { getTopics, getQuestions, getHighscore, getTheory, saveScore, getQuestionStats, sendContact, prefetch, isLive: live };
 })();
